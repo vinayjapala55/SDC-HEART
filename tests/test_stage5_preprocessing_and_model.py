@@ -129,15 +129,16 @@ class TestStage5PreprocessingAndModelIntegrity(unittest.TestCase):
         channels = 64
 
         # 1. SplitSelfAttention
-        split_att = SplitSelfAttention(num_splits=2, name="test_split_att")
-        x_att = tf.random.normal((batch_size, time_steps, channels))
+        split_att = SplitSelfAttention(channels=channels, name="test_split_att")
+        x_att = tf.random.normal((batch_size, 16, 16, channels))
         out_split = split_att(x_att)
-        self.assertEqual(out_split.shape, (batch_size, time_steps, channels))
+        self.assertEqual(out_split.shape, (batch_size, 16, 16, channels))
         self.assertFalse(tf.reduce_any(tf.math.is_nan(out_split)).numpy())
 
         # 2. CardiacSpatialTemporalAttention
-        cardiac_att = CardiacSpatialTemporalAttention(name="test_cardiac_att")
-        out_cardiac = cardiac_att(x_att)
+        cardiac_att = CardiacSpatialTemporalAttention(feature_dim=channels, reduction_ratio=4, name="test_cardiac_att")
+        x_cardiac = tf.random.normal((batch_size, time_steps, channels))
+        out_cardiac = cardiac_att(x_cardiac)
         self.assertEqual(out_cardiac.shape, (batch_size, time_steps, channels))
         self.assertFalse(tf.reduce_any(tf.math.is_nan(out_cardiac)).numpy())
 
@@ -153,7 +154,7 @@ class TestStage5PreprocessingAndModelIntegrity(unittest.TestCase):
         # Verify gating weights sum to 1.0
         gating_weights = fusion_4v.get_last_gating_weights()
         if gating_weights is not None:
-            sum_gating = np.sum(gating_weights, axis=-1)
+            sum_gating = np.sum(gating_weights, axis=1)
             np.testing.assert_allclose(sum_gating, np.ones_like(sum_gating), atol=1e-5)
 
         # 4. DynamicDecisionFusion (8 branches)
@@ -215,16 +216,17 @@ class TestStage5PreprocessingAndModelIntegrity(unittest.TestCase):
     def test_05_custom_layer_serializability(self):
         """Verify get_config and from_config roundtrips for all custom layers and losses."""
         # SplitSelfAttention
-        att1 = SplitSelfAttention(num_splits=4, name="att1")
+        att1 = SplitSelfAttention(channels=64, name="att1")
         cfg1 = att1.get_config()
         att1_recon = SplitSelfAttention.from_config(cfg1)
-        self.assertEqual(att1_recon.num_splits, 4)
+        self.assertEqual(att1_recon.channels, 64)
 
         # CardiacSpatialTemporalAttention
-        att2 = CardiacSpatialTemporalAttention(name="att2")
+        att2 = CardiacSpatialTemporalAttention(feature_dim=64, reduction_ratio=4, name="att2")
         cfg2 = att2.get_config()
         att2_recon = CardiacSpatialTemporalAttention.from_config(cfg2)
-        self.assertIsNotNone(att2_recon)
+        self.assertEqual(att2_recon.feature_dim, 64)
+        self.assertEqual(att2_recon.reduction_ratio, 4)
 
         # DynamicDecisionFusion
         fusion = DynamicDecisionFusion(num_branches=4, num_classes=5, name="fus")

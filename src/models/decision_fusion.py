@@ -68,6 +68,7 @@ class DynamicDecisionFusion(layers.Layer):
         
         # Softmax over branches (axis=1) -> weights sum to 1.0 across valve positions for each disease
         branch_weights = self.softmax(conf_logits)
+        self._last_gating_weights = branch_weights
 
         # Weighted Decision Aggregation -> (B, 5)
         weighted_decisions = tf.reduce_sum(branch_decisions * branch_weights, axis=1)
@@ -78,6 +79,10 @@ class DynamicDecisionFusion(layers.Layer):
         final_patient_prediction = self.final_sigmoid(refine_act)
 
         return final_patient_prediction
+
+    def get_last_gating_weights(self):
+        """Returns the most recent branch confidence weights computed during forward pass."""
+        return getattr(self, '_last_gating_weights', None)
 
     def get_config(self):
         config = super(DynamicDecisionFusion, self).get_config()
