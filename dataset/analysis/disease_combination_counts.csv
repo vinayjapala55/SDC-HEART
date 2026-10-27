@@ -1,0 +1,14 @@
+combination,patient_count,recording_count
+N,21,168
+MR,11,88
+MS,11,88
+MR+MS,10,80
+AR,6,48
+AS+AR,6,48
+AS,3,24
+AR+MR,2,16
+AS+AR+MR+MS,2,16
+AR+MR+MS,1,8
+AS+AR+MS,1,8
+AS+MS,1,8
+None,1,8

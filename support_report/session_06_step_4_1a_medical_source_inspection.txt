@@ -1,0 +1,41 @@
+================================================================================
+BMD-HS CARDIOVASCULAR DISEASE CLASSIFICATION PROJECT - SESSION 06 REPORT
+================================================================================
+Date/Time: 2026-08-31
+Task: STEP 4.1A - Medical PDF Inspection & RAG Source Preparation
+
+1. SOURCE FILE AUDIT
+--------------------------------------------------------------------------------
+- Verified File: dataset/rag/sources/ragdata.pdf
+- Absolute Path: C:\Users\chara\Downloads\BMDF\BMD-HS-Dataset-main\dataset\rag\sources\ragdata.pdf
+- File Size:     6,122,587 bytes (5.84 MB)
+- Status:        EXISTS & VERIFIED
+
+2. STRUCTURAL & TEXT EXTRACTION METRICS
+--------------------------------------------------------------------------------
+- Total Pages:       156
+- Extractable Pages: 156 / 156 (100% selectable text, 0% image-only)
+- Extracted Chars:   919,580 characters (~183,916 words)
+- Extraction Crash:  0 failures
+
+3. DISEASE COVERAGE
+--------------------------------------------------------------------------------
+- Normal Heart Sounds: FOUND (S1/S2 heart sounds, normal valve hemodynamics)
+- Aortic Stenosis (AS): FOUND (Etiology, auscultation, AVA, gradients, TAVR/SAVR)
+- Aortic Regurgitation (AR): FOUND (Auscultation, regurgitant volume, surgery)
+- Mitral Regurgitation (MR): FOUND (Primary/secondary, TEER, EROA, surgery)
+- Mitral Stenosis (MS): FOUND (Rheumatic, opening snap, rumble, PMBC)
+- Multi/Mixed Valve: FOUND (Combined lesions, hemodynamics)
+
+4. ARTIFACTS CREATED
+--------------------------------------------------------------------------------
+- dataset/rag/source_registry.csv
+- support_report/step_4_1a_medical_source_inspection.txt
+- support_report/session_06_step_4_1a_medical_source_inspection.txt
+
+5. CRITICAL STOP CONDITION
+--------------------------------------------------------------------------------
+Source inspection and registry preparation complete.
+No ChromaDB, vector database, embeddings, or LLM calls were executed.
+Status: PASS
+================================================================================

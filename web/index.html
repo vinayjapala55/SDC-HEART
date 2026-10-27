@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMD-HS Multi-Valvular Heart Disease Diagnostic Workstation</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body class="light-theme">
+
+    <!-- Header Navigation -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand-section">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                        <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.28"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="brand-title">BMD-HS <span class="brand-accent">Cardiovascular Diagnostic Workstation</span></h1>
+                    <p class="brand-subtitle">Multi-Agent RosaNet Classifier with ACC/AHA Clinical Guideline RAG</p>
+                </div>
+            </div>
+
+            <!-- Server Status Badge -->
+            <div class="system-status-container">
+                <div class="status-pill" id="audioStatusPill">
+                    <span class="status-dot green" id="audioDot"></span>
+                    <span class="status-text" id="audioText">4-Valve Multi-Agent Online</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+
+        <!-- Step 01: 4 Valve Inputs & Clinical Presets -->
+        <section class="classic-card">
+            <div class="card-header">
+                <div class="step-badge">01</div>
+                <div>
+                    <h2 class="card-title">Four Anatomical Valve Inputs</h2>
+                    <p class="card-description">Upload phonocardiogram WAV files for all four auscultation sites or select a clinical patient preset</p>
+                </div>
+            </div>
+
+            <!-- Authentic Patient Presets Bar -->
+            <div class="preset-section">
+                <span class="preset-label">Authentic Clinical Patient Profiles:</span>
+                <div class="patient-preset-grid" id="patientPresetButtons">
+                    <div class="sample-skeleton">Loading authentic clinical patient presets...</div>
+                </div>
+            </div>
+
+            <div class="divider-text"><span>OR UPLOAD PATIENT'S 4 VALVE RECORDINGS</span></div>
+
+            <!-- 4 Valve Upload Grid -->
+            <div class="four-valves-grid">
+                <!-- Aortic Valve -->
+                <div class="valve-card" id="cardAor">
+                    <div class="valve-card-header">
+                        <span class="valve-badge red">AOR</span>
+                        <span class="valve-title">Aortic Valve</span>
+                    </div>
+                    <p class="valve-desc">2nd intercostal space, right sternal border</p>
+                    <div class="valve-file-status" id="statusAor">No file selected</div>
+                    <label class="btn btn-valve-upload">
+                        Choose Aortic WAV
+                        <input type="file" id="inputAor" accept=".wav,audio/wav" hidden>
+                    </label>
+                </div>
+
+                <!-- Mitral Valve -->
+                <div class="valve-card" id="cardMit">
+                    <div class="valve-card-header">
+                        <span class="valve-badge blue">MIT</span>
+                        <span class="valve-title">Mitral Valve</span>
+                    </div>
+                    <p class="valve-desc">5th intercostal space, left midclavicular line (apex)</p>
+                    <div class="valve-file-status" id="statusMit">No file selected</div>
+                    <label class="btn btn-valve-upload">
+                        Choose Mitral WAV
+                        <input type="file" id="inputMit" accept=".wav,audio/wav" hidden>
+                    </label>
+                </div>
+
+                <!-- Pulmonary Valve -->
+                <div class="valve-card" id="cardPul">
+                    <div class="valve-card-header">
+                        <span class="valve-badge green">PUL</span>
+                        <span class="valve-title">Pulmonary Valve</span>
+                    </div>
+                    <p class="valve-desc">2nd intercostal space, left sternal border</p>
+                    <div class="valve-file-status" id="statusPul">No file selected</div>
+                    <label class="btn btn-valve-upload">
+                        Choose Pulmonary WAV
+                        <input type="file" id="inputPul" accept=".wav,audio/wav" hidden>
+                    </label>
+                </div>
+
+                <!-- Tricuspid Valve -->
+                <div class="valve-card" id="cardTri">
+                    <div class="valve-card-header">
+                        <span class="valve-badge orange">TRI</span>
+                        <span class="valve-title">Tricuspid Valve</span>
+                    </div>
+                    <p class="valve-desc">4th-5th intercostal space, left lower sternal border</p>
+                    <div class="valve-file-status" id="statusTri">No file selected</div>
+                    <label class="btn btn-valve-upload">
+                        Choose Tricuspid WAV
+                        <input type="file" id="inputTri" accept=".wav,audio/wav" hidden>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Execute Analysis Button -->
+            <div class="action-bar">
+                <button id="btnRunAnalysis" class="btn btn-primary-analyze" disabled>
+                    Run Multi-Agent 4-Valve Analysis
+                </button>
+            </div>
+        </section>
+
+        <!-- Loading State Indicator -->
+        <section class="classic-card hidden" id="loadingSection">
+            <div class="agent-progress-container">
+                <div class="spinner"></div>
+                <h3 class="progress-title" id="progressTitle">Executing Agentic AI Workflow...</h3>
+                <p class="progress-sub" id="progressSub">Agent 1: Inspecting signal quality across 4 valves...</p>
+            </div>
+        </section>
+
+        <!-- Step 02: Results Dashboard & Agent Findings -->
+        <section class="classic-card hidden" id="resultsContainer">
+            <div class="card-header flex-between">
+                <div>
+                    <h2 class="card-title">Multi-Agent Diagnostic Findings</h2>
+                    <p class="card-description" id="reportHeaderMeta">Session ID: ...</p>
+                </div>
+                <div class="risk-badge-container">
+                    <span class="risk-pill" id="riskPill">Low Risk</span>
+                </div>
+            </div>
+
+            <!-- Primary Status Banner -->
+            <div class="presence-banner" id="primaryBanner">
+                <div class="banner-title" id="bannerTitle">Diagnosis Pending</div>
+                <div class="banner-subtitle" id="bannerSubtitle">Waiting for model inference</div>
+            </div>
+
+            <!-- Agent 1: Signal Quality Card -->
+            <div class="agent-box">
+                <div class="agent-box-header">
+                    <span class="agent-tag tag-blue">Agent 1</span>
+                    <h4>Signal and Data Quality Summary</h4>
+                </div>
+                <div class="quality-content" id="qualityContent">...</div>
+            </div>
+
+            <!-- Agent 2: RosaNet Multilabel Probabilities & XAI -->
+            <div class="agent-box">
+                <div class="agent-box-header">
+                    <span class="agent-tag tag-purple">Agent 2</span>
+                    <h4>RosaNet Predictions & Valve Attribution (XAI)</h4>
+                </div>
+                <div class="probs-grid" id="probsGrid">...</div>
+                <div class="xai-summary-box" id="xaiSummaryBox">...</div>
+            </div>
+
+            <!-- Agent 3: ACC/AHA Guideline Evidence -->
+            <div class="agent-box">
+                <div class="agent-box-header">
+                    <span class="agent-tag tag-green">Agent 3</span>
+                    <h4>Medical Evidence & ACC/AHA Guidelines Context</h4>
+                </div>
+                <div class="guideline-chunks" id="guidelinesContent">...</div>
+            </div>
+
+            <!-- Synthesized Clinical Report View -->
+            <div class="agent-box full-report-box">
+                <div class="agent-box-header flex-between">
+                    <div>
+                        <span class="agent-tag tag-dark">Synthesized Report</span>
+                        <h4>Patient-Specific Clinical Analysis Report</h4>
+                    </div>
+                    <button class="btn btn-export" id="btnExportMarkdown">Copy / Export Report</button>
+                </div>
+                <div class="markdown-preview" id="markdownReportPreview"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <p>BUET Multi-Disease Heart Sound Dataset (BMD-HS) &bull; Investigational Clinical Diagnostic Assistant &bull; 2020 ACC/AHA Guidelines Integration</p>
+    </footer>
+
+    <script src="script.js?v=5"></script>
+</body>
+</html>

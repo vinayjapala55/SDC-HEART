@@ -1,0 +1,70 @@
+BMD-HS TRAINING IMBALANCE ANALYSIS REPORT
+=======================================
+
+Split status: finalized before augmentation/preprocessing. No changes made to the split, source CSV, or WAV files.
+
+Total patients: 109
+Train patients: 76
+Validation patients: 17
+Test patients: 16
+Training recordings: 608
+
+1. TRAINING PATIENT DISTRIBUTION
+--------------------------------
+MS: positive patients=26, percentage=34.21%, negative patients=50, positive:negative ratio=0.52
+MR: positive patients=26, percentage=34.21%, negative patients=50, positive:negative ratio=0.52
+N: positive patients=21, percentage=27.63%, negative patients=55, positive:negative ratio=0.38
+AR: positive patients=18, percentage=23.68%, negative patients=58, positive:negative ratio=0.31
+AS: positive patients=13, percentage=17.11%, negative patients=63, positive:negative ratio=0.21
+
+2. TRAINING RECORDING DISTRIBUTION
+---------------------------------
+Each training patient has exactly 8 recordings. A patient with multiple disease labels contributes those 8 recordings to each positive disease label, so the disease-specific recording counts can sum to more than 608 across diseases.
+MS: patients=26, recordings=208, percentage=34.21% of training recordings
+MR: patients=26, recordings=208, percentage=34.21% of training recordings
+N: patients=21, recordings=168, percentage=27.63% of training recordings
+AR: patients=18, recordings=144, percentage=23.68% of training recordings
+AS: patients=13, recordings=104, percentage=17.11% of training recordings
+
+3. TRAINING DISEASE COMBINATIONS
+-------------------------------
+N: patient_count=21, recording_count=168
+MR: patient_count=11, recording_count=88
+MS: patient_count=11, recording_count=88
+MR+MS: patient_count=10, recording_count=80
+AR: patient_count=6, recording_count=48
+AS+AR: patient_count=6, recording_count=48
+AS: patient_count=3, recording_count=24
+AR+MR: patient_count=2, recording_count=16
+AS+AR+MR+MS: patient_count=2, recording_count=16
+AR+MR+MS: patient_count=1, recording_count=8
+AS+AR+MS: patient_count=1, recording_count=8
+AS+MS: patient_count=1, recording_count=8
+None: patient_count=1, recording_count=8
+
+4. CLASS IMBALANCE SUMMARY
+-------------------------
+Majority disease: MS
+Minority disease: AS
+Majority/minority ratio: 2.00
+Most common disease combination: N
+Rarest disease combination: None
+
+5. NORMAL LABEL CHECK
+--------------------
+The Normal label is represented by the N column. It is a valid disease flag and is distinct from the all-zero patient annotation.
+The all-zero patient from Step 2.2 is patient_022 and it remains a special case, not a valid N-positive patient.
+Meaning: N=1 indicates the patient is labeled Normal; all-zero means no disease flags are active, which is a separate special-case annotation and should remain identifiable.
+
+6. VALIDATION AND TEST DISTRIBUTIONS
+-----------------------------------
+Validation: N=0, AS=12, AR=13, MR=6, MS=7
+Test: N=0, AS=12, AR=12, MR=6, MS=5
+
+7. RECOMMENDATION
+-----------------
+The dataset is multi-label and imbalanced. The most important classes are MR and MS, while N is sparse and validation/test have zero N patients. The strongest imbalance is not only per-label but also in multi-label combinations, especially for rare combinations. 
+A controlled augmentation strategy should target the rarest label combinations and rarest labels while preserving the original label combination in every augmented sample. For example, AS+AR must remain AS+AR after augmentation; it must never be converted to AS-only or AR-only.
+Practical recommendation: prioritize augmentation only for the rarest combinations and for labels with low patient counts, using moderate augmentation ratios rather than forcing exact equality across all labels. Keep the original patient-level disease combination intact for each augmented recording.
+
+STOP: no augmentation, no preprocessing, and no training were performed in this stage.

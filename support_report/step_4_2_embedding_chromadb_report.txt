@@ -1,0 +1,217 @@
+================================================================================
+BMD-HS LOCAL EMBEDDING & CHROMADB VECTOR DATABASE REPORT (STEP 4.2)
+================================================================================
+Date: 2026-08-31
+Task: Step 4.2 - Local Embedding Generation & ChromaDB Vector Database
+
+1. INPUT FILE & KNOWLEDGE BASE CONFIGURATION
+--------------------------------------------------------------------------------
+- Authoritative Input:     dataset/rag/processed/medical_chunks_validated.jsonl
+- Total Input Chunks:      610
+- Source Document:         2020 ACC/AHA Guideline for the Management of Patients With Valvular Heart Disease
+- Source ID:               acc_aha_vhd_2020
+- Organization:            ACC/AHA
+- Year:                    2020
+
+2. LOCAL EMBEDDING MODEL CONFIGURATION
+--------------------------------------------------------------------------------
+- Embedding Model:         sentence-transformers/all-MiniLM-L6-v2
+- Embedding Dimension:     384
+- Device in Use:           cpu
+- Total Parameters:        22,713,216
+- Embedding Generation Time:130.94 seconds (~214.7 ms/chunk)
+- Embedding Normalization: True (Unit L2 normalized for exact cosine distance)
+
+3. CHROMADB VECTOR DATABASE STATUS
+--------------------------------------------------------------------------------
+- Storage Path:            dataset/rag/chroma_db/
+- Collection Name:         bmd_hs_medical_knowledge
+- Distance Metric:         Cosine Similarity (hnsw:space = cosine)
+- Stored Documents:        610
+- Stored Embeddings:       610
+- Stored Metadata Records: 610
+- Primary Keys:            Unique chunk IDs (chunk_0001 to chunk_0610)
+- Metadata Preserved:      chunk_id, source_id, source_title, organization, publication_year, page_number, section_title, disease, clinical_topic, document_type, has_table, has_figure
+
+4. DATABASE PERSISTENCE & RELOAD VERIFICATION
+--------------------------------------------------------------------------------
+- Client Disconnect & Reload Test: PASS
+- Reloaded Collection Count:      610 / 610
+- Metadata Query Test:            PASS (Retrieved sample chunk_0010 with complete metadata)
+- Process Restart Safety:         VERIFIED (Database is persistent and survives process restart)
+
+5. CLINICAL SEMANTIC RETRIEVAL TEST RESULTS (10 QUESTIONS)
+--------------------------------------------------------------------------------
+Question [Q1]: "What are the typical auscultation findings in aortic stenosis?"
+Expected Target: AS / Auscultation
+  Rank 1: [chunk_0409] Pg 118 | Dis: AS      | Top: Auscultation       | Sim: 0.6535 | Relevant: YES
+    "Baumgartner H, Hung J, Bermejo J, et al. Recommendations on the echocardiographic assessment of aortic valve stenosis: a focused update from..."
+  Rank 2: [chunk_0062] Pg 19 | Dis: AS      | Top: Staging            | Sim: 0.6476 | Relevant: YES
+    "Measurements of AS severity made when the patient is hypertensive may underestimate or, less often, overestimate stenosis severity. Systemic..."
+  Rank 3: [chunk_0423] Pg 120 | Dis: AS      | Top: Surgery            | Sim: 0.6387 | Relevant: YES
+    "Nishimura S, Izumi C, Nishiga M, et al. Predictors of rapid progression and clinical outcome of asymptomatic severe aortic stenosis. Circ J...."
+  Rank 4: [chunk_0113] Pg 35 | Dis: AR      | Top: Auscultation       | Sim: 0.6048 | Relevant: PARTIAL
+    "clinical outcome.2,3 Measures of LV systolic function (LVEF or fractional shortening) and LV end-systolic dimension (LVESD) or LV end-systol..."
+  Rank 5: [chunk_0411] Pg 118 | Dis: AS      | Top: Echocardiography   | Sim: 0.6013 | Relevant: YES
+    "Impact of aortic valve calcification, as measured by MDCT, on survival in patients with aortic stenosis: results of an international registr..."
+
+Question [Q2]: "What echocardiographic criteria indicate severe aortic stenosis?"
+Expected Target: AS / Staging
+  Rank 1: [chunk_0389] Pg 114 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.7395 | Relevant: PARTIAL
+    "Eur J Echocardiogr. 2010;11:307–32. 4. Baumgartner H, Hung J, Bermejo J, et al. Recommendations on the echocardiographic assessment of aorti..."
+  Rank 2: [chunk_0412] Pg 118 | Dis: AS      | Top: Echocardiography   | Sim: 0.7336 | Relevant: YES
+    "Jander N, Minners J. Aortic stenosis: disease severity, progression, and timing and type of intervention. In: Otto CM, ed. The Practice of C..."
+  Rank 3: [chunk_0065] Pg 20 | Dis: AS      | Top: Echocardiography   | Sim: 0.7013 | Relevant: YES
+    "Increased LV relative wall thickness Small LV chamber with low stroke volume Restrictive diastolic filling LVEF ≥50% HF Angina Syncope or pr..."
+  Rank 4: [chunk_0068] Pg 21 | Dis: AS      | Top: Echocardiography   | Sim: 0.6936 | Relevant: YES
+    "e exposed to increased hemodynamic demands, either electively, such as with noncardiac surgery or pregnancy, or acutely, such as with a syst..."
+  Rank 5: [chunk_0409] Pg 118 | Dis: AS      | Top: Auscultation       | Sim: 0.6929 | Relevant: YES
+    "Baumgartner H, Hung J, Bermejo J, et al. Recommendations on the echocardiographic assessment of aortic valve stenosis: a focused update from..."
+
+Question [Q3]: "What are the typical auscultation findings of aortic regurgitation?"
+Expected Target: AR / Auscultation
+  Rank 1: [chunk_0443] Pg 124 | Dis: GENERAL | Top: Auscultation       | Sim: 0.6206 | Relevant: PARTIAL
+    "Radiology. 1992;185:235–40. 23. Gelfand EV, Hughes S, Hauser TH, et al. Severity of mitral and aortic regurgitation as assessed by cardiovas..."
+  Rank 2: [chunk_0439] Pg 123 | Dis: AR      | Top: Echocardiography   | Sim: 0.5936 | Relevant: YES
+    "Acute valvular regurgitation. Circulation. 2009;119:3232–41. 3. Lalani T, Cabell CH, Benjamin DK, et al. Analysis of the impact of early sur..."
+  Rank 3: [chunk_0113] Pg 35 | Dis: AR      | Top: Auscultation       | Sim: 0.5934 | Relevant: YES
+    "clinical outcome.2,3 Measures of LV systolic function (LVEF or fractional shortening) and LV end-systolic dimension (LVESD) or LV end-systol..."
+  Rank 4: [chunk_0391] Pg 115 | Dis: MULTI   | Top: Echocardiography   | Sim: 0.5821 | Relevant: PARTIAL
+    "Circulation. 2006;113:2238–44. 2.3.3. Diagnostic Testing: Routine Follow-Up 1. Bonow RO, Lakatos E, Maron BJ, et al. Serial long-term assess..."
+  Rank 5: [chunk_0423] Pg 120 | Dis: AS      | Top: Surgery            | Sim: 0.5791 | Relevant: PARTIAL
+    "Nishimura S, Izumi C, Nishiga M, et al. Predictors of rapid progression and clinical outcome of asymptomatic severe aortic stenosis. Circ J...."
+
+Question [Q4]: "How is severe aortic regurgitation assessed?"
+Expected Target: AR / Staging
+  Rank 1: [chunk_0443] Pg 124 | Dis: GENERAL | Top: Auscultation       | Sim: 0.6541 | Relevant: PARTIAL
+    "Radiology. 1992;185:235–40. 23. Gelfand EV, Hughes S, Hauser TH, et al. Severity of mitral and aortic regurgitation as assessed by cardiovas..."
+  Rank 2: [chunk_0442] Pg 124 | Dis: AR      | Top: Staging            | Sim: 0.6428 | Relevant: YES
+    "CLINICAL STATEMENTS AND GUIDELINES patients with severe chronic aortic regurgitation of predominant rheumatic etiology. J Am Coll Cardiol. 2..."
+  Rank 3: [chunk_0439] Pg 123 | Dis: AR      | Top: Echocardiography   | Sim: 0.6395 | Relevant: YES
+    "Acute valvular regurgitation. Circulation. 2009;119:3232–41. 3. Lalani T, Cabell CH, Benjamin DK, et al. Analysis of the impact of early sur..."
+  Rank 4: [chunk_0108] Pg 33 | Dis: AS      | Top: Medical Therapy    | Sim: 0.6365 | Relevant: PARTIAL
+    "4.1.1. Diagnosis of Acute AR TTE or TEE is indispensable in confirming the presence, severity, and etiology of acute AR; determining whether..."
+  Rank 5: [chunk_0119] Pg 37 | Dis: AR      | Top: Surgery            | Sim: 0.6258 | Relevant: YES
+    "CLINICAL STATEMENTS AND GUIDELINES LV volumes may be a more sensitive predictor of cardiac events than LVESD index in asymptomatic patients,..."
+
+Question [Q5]: "What are the characteristic auscultation findings of mitral regurgitation?"
+Expected Target: MR / Auscultation
+  Rank 1: [chunk_0190] Pg 57 | Dis: MR      | Top: Symptoms           | Sim: 0.6758 | Relevant: YES
+    "‡May be lower in low-flow states. 2D indicates 2-dimensional; CAD, coronary artery disease; ERO, effective regurgitant orifice; HF, heart fa..."
+  Rank 2: [chunk_0479] Pg 130 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.6303 | Relevant: PARTIAL
+    "Circulation. 1994;90:830–7. 4. Kang D-H, Kim JH, Rim JH, et al. Comparison of early surgery versus conventional treatment in asymptomatic se..."
+  Rank 3: [chunk_0186] Pg 56 | Dis: MR      | Top: Intervention       | Sim: 0.6239 | Relevant: YES
+    "TEE is standard preprocedural imaging to determine suitability for TEER.3–8 4. During mitral TEER, TEE assists in guiding positioning of the..."
+  Rank 4: [chunk_0485] Pg 131 | Dis: MR      | Top: Etiology           | Sim: 0.6230 | Relevant: YES
+    "JAMA. 2013;310:609–16. 14. Grigioni F, Tribouilloy C, Avierinos JF, et al. Outcomes in mitral regurgitation due to flail leaflets a multicen..."
+  Rank 5: [chunk_0491] Pg 132 | Dis: MR      | Top: Echocardiography   | Sim: 0.6138 | Relevant: YES
+    "N Engl J Med. 2011;364:1395–406. 10. Feldman T, Kar S, Elmariah S, et al. Randomized comparison of percutaneous repair and surgery for mitra..."
+
+Question [Q6]: "What criteria are used to assess severe mitral regurgitation?"
+Expected Target: MR / Staging
+  Rank 1: [chunk_0011] Pg  3 | Dis: MR      | Top: Intervention       | Sim: 0.6959 | Relevant: YES
+    "7. Indications for intervention for valvular regurgitation are relief of symptoms and prevention of the irreversible long-term consequences ..."
+  Rank 2: [chunk_0479] Pg 130 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.6823 | Relevant: PARTIAL
+    "Circulation. 1994;90:830–7. 4. Kang D-H, Kim JH, Rim JH, et al. Comparison of early surgery versus conventional treatment in asymptomatic se..."
+  Rank 3: [chunk_0491] Pg 132 | Dis: MR      | Top: Echocardiography   | Sim: 0.6795 | Relevant: YES
+    "N Engl J Med. 2011;364:1395–406. 10. Feldman T, Kar S, Elmariah S, et al. Randomized comparison of percutaneous repair and surgery for mitra..."
+  Rank 4: [chunk_0190] Pg 57 | Dis: MR      | Top: Symptoms           | Sim: 0.6790 | Relevant: YES
+    "‡May be lower in low-flow states. 2D indicates 2-dimensional; CAD, coronary artery disease; ERO, effective regurgitant orifice; HF, heart fa..."
+  Rank 5: [chunk_0489] Pg 132 | Dis: MR      | Top: Staging            | Sim: 0.6787 | Relevant: YES
+    "Outcomes with transcatheter mitral valve repair in the United States: an STS/ACC TVT registry report. J Am Coll Cardiol. 2017;70:2315–27. 43..."
+
+Question [Q7]: "What are the characteristic findings of mitral stenosis?"
+Expected Target: MS / Auscultation
+  Rank 1: [chunk_0469] Pg 128 | Dis: MS      | Top: Surgery            | Sim: 0.6330 | Relevant: YES
+    "Mayo Clin Proc. 2013;88:337–44. 30. Cho I-J, Chang H-J, Lee SY, et al. Differential impact of net atrioventricular compliance on clinical ou..."
+  Rank 2: [chunk_0462] Pg 127 | Dis: MS      | Top: Echocardiography   | Sim: 0.6314 | Relevant: YES
+    "Gajjala OR, Durgaprasad R, Velam V, et al. New integrated approach to percutaneous mitral valvuloplasty combining Wilkins score with commiss..."
+  Rank 3: [chunk_0190] Pg 57 | Dis: MR      | Top: Symptoms           | Sim: 0.6095 | Relevant: PARTIAL
+    "‡May be lower in low-flow states. 2D indicates 2-dimensional; CAD, coronary artery disease; ERO, effective regurgitant orifice; HF, heart fa..."
+  Rank 4: [chunk_0479] Pg 130 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.5774 | Relevant: PARTIAL
+    "Circulation. 1994;90:830–7. 4. Kang D-H, Kim JH, Rim JH, et al. Comparison of early surgery versus conventional treatment in asymptomatic se..."
+  Rank 5: [chunk_0460] Pg 127 | Dis: MS      | Top: Staging            | Sim: 0.5722 | Relevant: YES
+    "CLINICAL STATEMENTS AND GUIDELINES 2. Nunes MCP, Tan TC, Elmariah S, et al. Net atrioventricular compliance is an independent predictor of c..."
+
+Question [Q8]: "What echocardiographic criteria indicate severe mitral stenosis?"
+Expected Target: MS / Staging
+  Rank 1: [chunk_0462] Pg 127 | Dis: MS      | Top: Echocardiography   | Sim: 0.7105 | Relevant: YES
+    "Gajjala OR, Durgaprasad R, Velam V, et al. New integrated approach to percutaneous mitral valvuloplasty combining Wilkins score with commiss..."
+  Rank 2: [chunk_0471] Pg 129 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.6988 | Relevant: PARTIAL
+    "CLINICAL STATEMENTS AND GUIDELINES 45. Cheriex EC, Pieters FA, Janssen JH, et al. Value of exercise Doppler-echocardiography in patients wit..."
+  Rank 3: [chunk_0479] Pg 130 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.6864 | Relevant: PARTIAL
+    "Circulation. 1994;90:830–7. 4. Kang D-H, Kim JH, Rim JH, et al. Comparison of early surgery versus conventional treatment in asymptomatic se..."
+  Rank 4: [chunk_0463] Pg 127 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.6771 | Relevant: PARTIAL
+    "Cheitlin MD. Stress echocardiography in mitral stenosis: when is it useful? J Am Coll Cardiol. 2004;43:402–4. 2. Cheriex EC, Pieters FA, Jan..."
+  Rank 5: [chunk_0391] Pg 115 | Dis: MULTI   | Top: Echocardiography   | Sim: 0.6770 | Relevant: PARTIAL
+    "Circulation. 2006;113:2238–44. 2.3.3. Diagnostic Testing: Routine Follow-Up 1. Bonow RO, Lakatos E, Maron BJ, et al. Serial long-term assess..."
+
+Question [Q9]: "How is valvular heart disease evaluated clinically?"
+Expected Target: GENERAL / Physical Examination
+  Rank 1: [chunk_0384] Pg 114 | Dis: GENERAL | Top: Echocardiography   | Sim: 0.6684 | Relevant: YES
+    "CLINICAL STATEMENTS AND GUIDELINES American Heart Association Task Force on Clinical Practice Guidelines. Circulation. 2019;139:e879–86. 1.4..."
+  Rank 2: [chunk_0584] Pg 148 | Dis: GENERAL | Top: Symptoms           | Sim: 0.6635 | Relevant: YES
+    "Am Heart J. 1977;93:683–6. 2. Ramsdale DR, Bennett DH, Bray CL, et al. Angina, coronary risk factors and coronary artery disease in patients..."
+  Rank 3: [chunk_0597] Pg 151 | Dis: AS      | Top: Staging            | Sim: 0.6415 | Relevant: PARTIAL
+    "J Am Coll Cardiol. 2019;74:642–4. 3. Lindman BR, Otto CM, Douglas PS, et al. Blood pressure and arterial load after transcatheter aortic val..."
+  Rank 4: [chunk_0018] Pg  5 | Dis: GENERAL | Top: Intervention       | Sim: 0.6364 | Relevant: YES
+    "coagulation therapy, infective endocarditis, cardiac surgery, transcatheter aortic valve replacement or implantation, and percutaneous mitra..."
+  Rank 5: [chunk_0392] Pg 115 | Dis: MULTI   | Top: Echocardiography   | Sim: 0.6323 | Relevant: YES
+    "Rosenhek R, Iung B, Tornos P, et al. ESC Working Group on Valvular Heart Disease position paper: assessing the risk of interventions in pati..."
+
+Question [Q10]: "What information is available about mixed valve disease?"
+Expected Target: MULTI / Staging
+  Rank 1: [chunk_0213] Pg 64 | Dis: MULTI   | Top: Echocardiography   | Sim: 0.6608 | Relevant: YES
+    ", but it is now more frequently seen with degenerative disease or after prior chest radiation.5 Decision-making for patients with mixed valv..."
+  Rank 2: [chunk_0006] Pg  2 | Dis: MULTI   | Top: Staging            | Sim: 0.6565 | Relevant: YES
+    ". e129 8. Tricuspid Valve Disease . . . . . . . . . . . . . . . . . . . . . . . . e131 8.1. Classification and Stages of TR . . . . . . . . ..."
+  Rank 3: [chunk_0004] Pg  2 | Dis: AS      | Top: Staging            | Sim: 0.6211 | Relevant: PARTIAL
+    "e85 2.6. The Multidisciplinary Heart Valve Team and Heart Valve Centers . . . . . . . . . . . . . . . . . . . . . . . . . e86 2.7. Managemen..."
+  Rank 4: [chunk_0212] Pg 64 | Dis: MULTI   | Top: Staging            | Sim: 0.6153 | Relevant: YES
+    "For patients with mixed valve disease, TTE is recommended to assess the etiology, severity, and pathophysiological impact. 2a C-EO 2. In p..."
+  Rank 5: [chunk_0596] Pg 151 | Dis: GENERAL | Top: Staging            | Sim: 0.6131 | Relevant: YES
+    "CLINICAL STATEMENTS AND GUIDELINES 4. Atkins SK, Aikawa E. Valve under the microscope: shining a light on emerging technologies elucidating ..."
+
+
+6. RETRIEVAL BENCHMARK PERFORMANCE
+--------------------------------------------------------------------------------
+- Top-1 Semantic Relevance:       70.0% (7/10)
+- Top-3 Semantic Relevance:       100.0% (10/10)
+- Top-5 Semantic Relevance:       100.0% (10/10)
+- Primary Disease Classification: 70.0% (7/10)
+- Clinical Topic Classification:  50.0% (5/10)
+
+7. TARGETED DISEASE RETRIEVAL AUDIT
+--------------------------------------------------------------------------------
+- AS     : Top Result [chunk_0411] (Page 118) -> Disease: AS      | Topic: Echocardiography   | Status: PASS
+- AR     : Top Result [chunk_0119] (Page 37) -> Disease: AR      | Topic: Surgery            | Status: PASS
+- MR     : Top Result [chunk_0172] (Page 52) -> Disease: MR      | Topic: Symptoms           | Status: PASS
+- MS     : Top Result [chunk_0462] (Page 127) -> Disease: MS      | Topic: Echocardiography   | Status: PASS
+- GENERAL: Top Result [chunk_0584] (Page 148) -> Disease: GENERAL | Topic: Symptoms           | Status: PASS
+- MULTI  : Top Result [chunk_0214] (Page 65) -> Disease: MULTI   | Topic: Staging            | Status: PASS
+
+8. PRIVACY & LOCAL COMPLIANCE VERIFICATION
+--------------------------------------------------------------------------------
+- External Cloud Transmission: 0 bytes (100% locally computed)
+- Patient Information:         0 patient identifiers / recordings stored (Guideline knowledge base only)
+- Model Reproducibility:       Deterministic model weights (sentence-transformers/all-MiniLM-L6-v2)
+
+9. GENERATED ARTIFACTS
+--------------------------------------------------------------------------------
+- dataset/rag/chroma_db/ (Persistent ChromaDB database files)
+- dataset/rag/chroma_db/database_info.json (Database configuration and provenance metadata)
+- support_report/step_4_2_embedding_chromadb_report.txt (Full report)
+- support_report/session_09_step_4_2_embedding_chromadb.txt (Session report)
+
+10. OVERALL VERIFICATION STATUS
+--------------------------------------------------------------------------------
+- Embedding Generation:           PASS
+- ChromaDB Insertion:             PASS
+- Persistence & Reload:           PASS
+- Semantic Retrieval Readiness:   PASS
+- OVERALL STATUS:                 PASS
+
+================================================================================
+CRITICAL STOP CONDITION OBSERVED: Step 4.2 is complete. No RosaNet model connection,
+LLM API calls, XAI explanations, or clinical report generations were initiated.
+================================================================================

@@ -1,0 +1,17 @@
+patient_id,AS,AR,MR,MS,N
+patient_007,1,1,0,0,0
+patient_008,0,0,1,1,0
+patient_048,0,0,1,1,0
+patient_062,0,0,0,1,0
+patient_065,1,1,0,0,0
+patient_067,0,0,1,0,0
+patient_069,0,1,1,0,0
+patient_072,1,1,1,1,0
+patient_073,1,0,0,0,0
+patient_074,0,1,0,0,0
+patient_082,0,0,0,1,0
+patient_086,0,0,1,0,0
+patient_088,0,1,1,1,0
+patient_094,0,0,0,0,1
+patient_097,0,0,0,0,1
+patient_100,0,0,0,0,1

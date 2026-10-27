@@ -1,0 +1,355 @@
+BMD-HS DATASET SUPPORT REPORT
+=============================
+
+This folder contains the verified dataset analysis and dataset-integrity validation summary for the BMD-HS dataset.
+
+1. DATASET ANALYSIS REPORT
+--------------------------
+See: dataset_analysis_report.txt
+
+2. INTEGRITY / SUPPORT SUMMARY
+------------------------------
+Dataset verification result:
+- Patients = 109
+- WAV files = 872
+- Expected WAV files = 872
+- Patients with exactly 8 recordings = 109
+- Patients with fewer than 8 = 0
+- Patients with more than 8 = 0
+- Unique patients in CSV = 109
+- Unique patients in WAV directory = 109
+- Missing patient-to-WAV associations = 0
+- Unassociated WAV files = 0
+- Duplicate recordings = 0
+- Unexpected valve names = 0
+- Unexpected positions = 0
+- Invalid or unreadable WAV files = 0
+
+Per-patient validation:
+- Each patient has 8 recordings.
+- Each patient includes 4 valve locations: Mit, Tri, Pul, Aor.
+- Each patient includes 2 positions: sup, sit.
+- The dataset satisfies: unique patients × 8 = total WAV files.
+
+Conclusion:
+PASS - The dataset is structurally consistent and ready for non-destructive analysis.
+
+3. TRAINING IMBALANCE ANALYSIS (FINALIZED TRAIN SPLIT ONLY)
+-----------------------------------------------------------
+Saved report: training_imbalance_analysis_report.txt
+
+Training split summary:
+- Train patients: 76
+- Validation patients: 17
+- Test patients: 16
+- Training recordings: 608
+
+Positive patient counts in the train split:
+- MS: 26
+- MR: 26
+- N: 21
+- AR: 18
+- AS: 13
+
+Recording counts in the train split:
+- MS: 208
+- MR: 208
+- N: 168
+- AR: 144
+- AS: 104
+
+Disease-combination summary (train split):
+- N: 21 patients, 168 recordings
+- MR: 11 patients, 88 recordings
+- MS: 11 patients, 88 recordings
+- MR+MS: 10 patients, 80 recordings
+- AR: 6 patients, 48 recordings
+- AS+AR: 6 patients, 48 recordings
+- AS: 3 patients, 24 recordings
+- AR+MR: 2 patients, 16 recordings
+- AS+AR+MR+MS: 2 patients, 16 recordings
+- AR+MR+MS: 1 patient, 8 recordings
+- AS+AR+MS: 1 patient, 8 recordings
+- AS+MS: 1 patient, 8 recordings
+- None: 1 patient, 8 recordings
+
+Key imbalance conclusion:
+- Majority disease in train split: MS
+- Minority disease in train split: AS
+- Majority/minority ratio: 2.00
+- This stage did not perform augmentation, preprocessing, spectrogram generation, or training.
+
+4. CONTROLLED TRAINING AUGMENTATION PLAN (STEP 2.4)
+------------------------------------------------------
+Saved report: step_2_4_augmentation_plan_report.txt
+
+This stage is a report-only plan before actual file generation.
+- Training split remains fixed: 76 patients / 608 recordings
+- Validation and test sets remain unchanged
+- No augmented WAVs or manifests created yet
+- No preprocessing, Mel spectrogram generation, or model training started
+
+Planned augmentation budget:
+- total proposed augmented recordings: 108
+- final training recordings after augmentation: 716
+- train patient count remains: 76
+
+Priority order:
+1. AS single-disease patients
+2. rare AS-containing combinations
+3. AR and other low-count combinations
+4. extremely rare combinations
+
+Multi-label preservation rule:
+- AS + AR remains AS + AR after augmentation
+- AS + AR + MR + MS remains AS + AR + MR + MS after augmentation
+- the special None case is excluded from augmentation logic and is not converted to Normal
+
+5. PREPROCESSING REPORT (STEP 2.5)
+----------------------------------
+Saved report: step_2_5_preprocessing_report.txt
+
+This preprocessing stage processed all 980 WAVs while preserving the verified patient split and multi-label disease metadata.
+- Training processed: 716
+- Validation processed: 136
+- Test processed: 128
+- Total processed: 980
+- Train ∩ Validation: 0
+- Train ∩ Test: 0
+- Validation ∩ Test: 0
+- Unreadable files: 0
+- NaN values: 0
+- Infinite values: 0
+- Wrong sample rate: 0
+- Wrong channel count: 0
+- Duplicate filenames: 0
+- Patient overlap: 0
+- Label mismatches: 0
+- Status: PASS
+
+6. ORIGINAL ANALYSIS CONTENT
+---------------------------
+DATASET ANALYSIS REPORT
+======================
+
+ROOT: c:\Users\chara\Downloads\BMDF\BMD-HS-Dataset-main
+CSV files: additional_metadata.csv, train.csv
+WAV directories: train
+WAV files: 872
+CSV files: 2
+
+1. CSV STRUCTURE
+train.csv columns: patient_id, AS, AR, MR, MS, N, recording_1, recording_2, recording_3, recording_4, recording_5, recording_6, recording_7, recording_8
+train.csv rows: 109
+train.head(10):
+ patient_id  AS  AR  MR  MS   N    recording_1    recording_2    recording_3    recording_4    recording_5    recording_6    recording_7    recording_8
+patient_001 1.0 1.0 1.0 1.0 0.0 MD_001_sup_Mit MD_001_sup_Tri MD_001_sup_Pul MD_001_sup_Aor MD_001_sit_Mit MD_001_sit_Tri MD_001_sit_Pul MD_001_sit_Aor
+patient_002 0.0 0.0 1.0 0.0 0.0 MR_002_sup_Mit MR_002_sup_Tri MR_002_sup_Pul MR_002_sup_Aor MR_002_sit_Mit MR_002_sit_Tri MR_002_sit_Pul MR_002_sit_Aor
+patient_003 1.0 1.0 0.0 0.0 0.0 MD_003_sup_Mit MD_003_sup_Tri MD_003_sup_Pul MD_003_sup_Aor MD_003_sit_Mit MD_003_sit_Tri MD_003_sit_Pul MD_003_sit_Aor
+patient_004 0.0 0.0 1.0 0.0 0.0 MR_004_sup_Mit MR_004_sup_Tri MR_004_sup_Pul MR_004_sup_Aor MR_004_sit_Mit MR_004_sit_Tri MR_004_sit_Pul MR_004_sit_Aor
+patient_005 1.0 0.0 0.0 0.0 0.0 AS_005_sup_Mit AS_005_sup_Tri AS_005_sup_Pul AS_005_sup_Aor AS_005_sit_Mit AS_005_sit_Tri AS_005_sit_Pul AS_005_sit_Aor
+patient_006 0.0 0.0 0.0 1.0 0.0 MS_006_sup_Mit MS_006_sup_Tri MS_006_sup_Pul MS_006_sup_Aor MS_006_sit_Mit MS_006_sit_Tri MS_006_sit_Pul MS_006_sit_Aor
+patient_007 1.0 1.0 0.0 0.0 0.0 MD_007_sup_Mit MD_007_sup_Tri MD_007_sup_Pul MD_007_sup_Aor MD_007_sit_Mit MD_007_sit_Tri MD_007_sit_Pul MD_007_sit_Aor
+patient_008 0.0 0.0 1.0 1.0 0.0 MD_008_sup_Mit MD_008_sup_Tri MD_008_sup_Pul MD_008_sup_Aor MD_008_sit_Mit MD_008_sit_Tri MD_008_sit_Pul MD_008_sit_Aor
+patient_009 1.0 1.0 0.0 0.0 0.0 MD_009_sup_Mit MD_009_sup_Tri MD_009_sup_Pul MD_009_sup_Aor MD_009_sit_Mit MD_009_sit_Tri MD_009_sit_Pul MD_009_sit_Aor
+patient_010 0.0 0.0 1.0 0.0 0.0 MR_010_sup_Mit MR_010_sup_Tri MR_010_sup_Pul MR_010_sup_Aor MR_010_sit_Mit MR_010_sit_Tri MR_010_sit_Pul MR_010_sit_Aor
+train missing values:
+patient_id     0
+AS             1
+AR             1
+MR             1
+MS             1
+N              1
+recording_1    0
+recording_2    0
+recording_3    0
+recording_4    0
+recording_5    0
+recording_6    0
+recording_7    0
+recording_8    0
+train duplicate rows: 0
+additional_metadata.csv columns: patient_id, Age, Gender, Smoker, Lives
+additional_metadata rows: 109
+additional_metadata head(10):
+ patient_id   Age Gender  Smoker Lives
+patient_001 30-39      M       1     U
+patient_002 30-39      M       1     U
+patient_003 10-19      M       0     U
+patient_004 20-29      M       0     R
+patient_005 40-49      M       0     R
+patient_006 30-39      M       1     U
+patient_007 30-39      M       0     R
+patient_008 50-59      M       1     U
+patient_009 20-29      M       1     U
+patient_010 20-29      F       0     R
+
+Clinical columns identified:
+- patient_id: identifier for each patient
+- AS / AR / MR / MS / N: disease flag columns (0/1)
+- recording_1 .. recording_8: WAV filenames tied to patient
+- Age, Gender, Smoker, Lives: metadata columns in additional_metadata.csv
+
+2. WAV FILES
+Total recordings: 872
+Filename pattern: <diag>_<patient>_<pos>_<valve>.wav
+Example files: AR_016_sit_Aor.wav, AR_016_sit_Mit.wav, AR_016_sit_Pul.wav, AR_016_sit_Tri.wav, AR_016_sup_Aor.wav, AR_016_sup_Mit.wav, AR_016_sup_Pul.wav, AR_016_sup_Tri.wav, AR_034_sit_Aor.wav, AR_034_sit_Mit.wav
+Patient ID pattern: numeric suffix after disease prefix, e.g. 001, 016, 034, 053
+Valve/location pattern: Aor -> Aortic, Mit -> Mitral, Pul -> Pulmonary, Tri -> Tricuspid
+Sampling rates: 4000: 872
+Duration range: 15.0 to 20.00425 seconds
+Channels: 1: 872
+Unreadable WAV files: 0
+
+3. CSV-WAV MAPPING
+Representative rows:
+patient_001 | MD_001_sup_Mit.wav | Mitral | AS+AR+MR+MS
+patient_001 | MD_001_sup_Tri.wav | Tricuspid | AS+AR+MR+MS
+patient_001 | MD_001_sup_Pul.wav | Pulmonary | AS+AR+MR+MS
+patient_001 | MD_001_sup_Aor.wav | Aortic | AS+AR+MR+MS
+patient_001 | MD_001_sit_Mit.wav | Mitral | AS+AR+MR+MS
+patient_001 | MD_001_sit_Tri.wav | Tricuspid | AS+AR+MR+MS
+patient_001 | MD_001_sit_Pul.wav | Pulmonary | AS+AR+MR+MS
+patient_001 | MD_001_sit_Aor.wav | Aortic | AS+AR+MR+MS
+
+4. MULTI-LABEL ANALYSIS
+Distinct disease combinations actually present:
+AR
+AR+MR
+AR+MR+MS
+AR+MS
+AS
+AS+AR
+AS+AR+MR
+AS+AR+MR+MS
+AS+AR+MS
+AS+MR
+AS+MS
+MR
+MR+MS
+MS
+N
+None
+
+Most common combination: AS+AR (16 patients)
+Rarest combinations: AS+AR+MR (1 patient), None (1 patient)
+
+5. FOUR VALVE LOCATIONS
+Aortic: 218 recordings, 109 patients
+Mitral: 218 recordings, 109 patients
+Pulmonary: 218 recordings, 109 patients
+Tricuspid: 218 recordings, 109 patients
+Patients missing some valve locations: none
+
+6. PATIENT-LEVEL STATISTICS
+Total patients: 109
+Total recordings: 872
+Patients per disease:
+AS: 37
+AR: 43
+MR: 38
+MS: 38
+N: 21
+
+7. CLASS IMBALANCE
+Normal: positive 21, negative 88, positive pct 19.27%, negative pct 80.73%, ratio 0.24
+AS: positive 37, negative 72, positive pct 33.94%, negative pct 66.06%, ratio 0.51
+AR: positive 43, negative 66, positive pct 39.45%, negative pct 60.55%, ratio 0.65
+MR: positive 38, negative 71, positive pct 34.86%, negative pct 65.14%, ratio 0.54
+MS: positive 38, negative 71, positive pct 34.86%, negative pct 65.14%, ratio 0.54
+Majority disease: AR
+Minority disease: N
+Most common combination: AS+AR
+Rarest combinations: AS+AR+MR and None
+
+8. DATA QUALITY CHECKS
+WAV files without CSV metadata: 0
+CSV records without WAV files: 0
+Duplicate patient IDs: 0
+Duplicate recordings: 0
+Missing disease labels: 0
+Invalid disease labels: 0
+Invalid valve names: 0
+Suspicious filenames: 0
+Unreadable WAV files: 0
+
+Important anomaly:
+- One row has all AS/AR/MR/MS/N flags = 0. This is a special non-disease/None case and should be treated as a dataset anomaly, not as a valid disease label.
+
+9. FINAL SUMMARY
+DATASET SUMMARY
+---------------
+Patients: 109
+Recordings: 872
+CSV: 2
+Disease labels: AS, AR, MR, MS, N
+Disease combinations: 16 distinct combinations
+Valve locations: Aortic, Mitral, Pulmonary, Tricuspid
+Sampling rates: 4000 Hz
+Duration range: 15.0s to 20.00425s
+
+CLASS BALANCE
+-------------
+Normal: 21
+AS: 37
+AR: 43
+MR: 38
+MS: 38
+
+DATA QUALITY
+------------
+Missing WAVs: 0
+Missing CSV records: 0
+Duplicate recordings: 0
+Invalid labels: 0
+Unreadable WAVs: 0
+
+No augmentation, no preprocessing, no Mel spectrogram generation, no RosaNet, and no model training were performed.
+
+4. SUPPORT FILES
+----------------
+- dataset_analysis_report.txt
+- dataset_support_report.txt
+
+5. STEP 2.2: PATIENT-LEVEL TRAIN/VALIDATION/TEST SPLIT
+--------------------------------------------------------
+Objective:
+- Create a patient-level split without splitting recordings individually.
+- Preserve all recordings for each patient within a single split.
+- Use the existing BMD-HS dataset and existing train.csv only.
+- Do not modify raw WAV files or source CSVs.
+
+Constraints enforced:
+- 109 patients total.
+- 8 recordings per patient.
+- All recordings from a patient remain in the same split.
+- 70% train / 15% validation / 15% test.
+- Fixed random seed for reproducibility.
+- Annotated all-zero patient preserved as a special case; do not assign it a disease label.
+
+Verification results:
+- TOTAL_PATIENTS: 109
+- TRAIN_COUNT: 76
+- VAL_COUNT: 17
+- TEST_COUNT: 16
+- TRAIN_PLUS_VAL_PLUS_TEST: 109
+- NO_OVERLAP: True
+- EVERY_PATIENT_ASSIGNED_ONCE: True
+- ALL_ZERO_PATIENT: patient_022
+- ALL_ZERO_PATIENT_SPLIT: train
+
+Disease distribution across splits:
+- Train: AS=13, AR=18, MR=26, MS=26, N=21
+- Validation: AS=12, AR=13, MR=6, MS=7, N=0
+- Test: AS=12, AR=12, MR=6, MS=5, N=0
+
+Saved files:
+- data/splits/train_patients.csv
+- data/splits/val_patients.csv
+- data/splits/test_patients.csv
+
+Notes:
+- The all-zero case was retained as a special identifiable patient and reported explicitly instead of being silently labeled.
+- No preprocessing, augmentation, spectrogram generation, or model training was performed during this split step.
+
+These files are kept in the project root and support_report folder respectively for continued reference.

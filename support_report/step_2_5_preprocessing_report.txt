@@ -1,0 +1,46 @@
+-----------------------------------------
+PCG PREPROCESSING REPORT
+-----------------------------------------
+
+Input:
+Train: 716 WAVs
+Validation: 136 WAVs
+Test: 128 WAVs
+Total: 980 WAVs
+
+-----------------------------------------
+PREPROCESSING OPERATIONS
+-----------------------------------------
+Mono conversion: Convert stereo/multichannel WAV files to mono by averaging channels; keep mono recordings unchanged.
+Butterworth: 4th-order low-pass filter, 1000 Hz cutoff, zero-phase SOS filtering.
+Noise reduction: Conservative spectral gating with a low noise floor; suppresses only a small portion of the spectrum while retaining the cardiac waveform.
+Resampling: 2000 Hz final sample rate using polyphase resampling.
+Standardization: Z-score standardization with a safe sigma floor to avoid division by zero.
+
+-----------------------------------------
+OUTPUT COUNTS
+-----------------------------------------
+Train processed: 716
+Validation processed: 136
+Test processed: 128
+Total processed: 980
+Expected: 980
+
+-----------------------------------------
+QUALITY CHECKS
+-----------------------------------------
+Unreadable files: 0
+NaN files: 0
+Infinite-value files: 0
+Wrong sample rate: 0
+Wrong channel count: 0
+Duplicate filenames: 0
+Clipping/corruption: 0
+Missing metadata: 0
+Patient overlap: 0
+Label mismatches: 0
+
+-----------------------------------------
+STATUS
+-----------------------------------------
+PASS

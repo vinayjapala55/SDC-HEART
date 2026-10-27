@@ -1,0 +1,69 @@
+================================================================================
+BMD-HS CARDIOVASCULAR DISEASE CLASSIFICATION PROJECT - SESSION 03 REPORT
+================================================================================
+Date/Time: 2026-08-31
+Task: STEP 3.1 - RosaNet Model Architecture with Attention and Decision Fusion
+
+1. PATIENT-LEVEL GROUPING & PIPELINE VERIFICATION
+--------------------------------------------------------------------------------
+- Patient Counts:
+  * Train Patients: 76 (716 total recordings: 608 original + 108 augmented)
+  * Validation Patients: 17 (136 total recordings: 136 original)
+  * Test Patients: 16 (128 total recordings: 128 original)
+  * Total Patients: 109
+  * Patient Overlap across splits: 0 (Strict patient-level isolation)
+- Recording Metadata:
+  * Preserved all 4 valve locations: Aortic (Aor), Mitral (Mit), Pulmonary (Pul), Tricuspid (Tri)
+  * Preserved both postures: Sitting (sit), Supine (sup)
+  * Total 8 auscultation sites per patient.
+- Special Annotation (patient_022):
+  * Clinical diagnosis: Mitral Valve Prolapse (MVP)
+  * Represented as [0, 0, 0, 0, 0] (no active flags for targeted AS/AR/MR/MS; not Normal)
+  * Properly verified and preserved.
+
+2. ROSANET MODEL ARCHITECTURE DETAILS
+--------------------------------------------------------------------------------
+- Input Tensor per Patient: 8 physical recording branches, each shape (64, 626, 1)
+- Feature Extraction Backbone (RosaNet):
+  * Multi-Path Receptive Field Convolutional Block: 4 parallel paths (3x3, 5x5, 7x7, 1x1 Conv2D)
+    capturing fine acoustic clicks, systolic ejection murmurs, and diastolic rumbles.
+  * Intermediate & Deep Conv stages with Batch Normalization, ReLU, MaxPool(2,2), Dropout.
+  * Split-Self-Attention: Feature channel splitting, non-linear projection gating, and feature modulation.
+  * Hybrid Global Pooling (GAP + GMP) -> 128-D Feature Embedding.
+- Explicit Attention Mechanism:
+  * Cardiac Spatial/Temporal Feature Attention: Computes importance weights alpha in [0, 1]
+    via gating network to weight clinically salient cardiac acoustic patterns.
+  * Flow: INPUT FEATURES -> ATTENTION -> LEARNED IMPORTANCE WEIGHTS -> WEIGHTED FEATURES.
+- Dynamic Decision Fusion:
+  * Generates 8 branch-level disease predictions [P(N), P(AS), P(AR), P(MR), P(MS)].
+  * Dynamically computes branch diagnostic confidence across valve sites for each disease class.
+  * Aggregates weighted decisions and passes through a non-linear clinical interaction refinement head.
+- Final Output:
+  * Shape: (B, 5) -> Multi-label disease probabilities [P(N), P(AS), P(AR), P(MR), P(MS)] in [0, 1]^5.
+  * Multi-label binary cross-entropy formulation with sigmoid activations.
+
+3. MODEL PARAMETERS & VERIFICATION
+--------------------------------------------------------------------------------
+- Total Parameters: 357,999
+- Trainable Parameters: 356,847
+- Non-trainable Parameters: 1,152
+- Forward Pass: VERIFIED with both synthetic tensors and real Mel spectrogram batches.
+
+4. ARTIFACTS CREATED & SAVED
+--------------------------------------------------------------------------------
+- src/data/patient_grouping.py
+- src/data/dataset_loader.py
+- src/models/attention.py
+- src/models/rosanet.py
+- src/models/decision_fusion.py
+- src/training/train_rosanet.py
+- dataset/plots/model/rosanet_architecture.png
+- dataset/analysis/rosanet_model_summary.txt
+- support_report/step_3_1_rosanet_architecture_report.txt
+- support_report/session_03_step_3_1_rosanet_architecture.txt
+
+5. STOP CONDITION SATISFIED
+--------------------------------------------------------------------------------
+Architecture implementation and pipeline verification are complete.
+No training loops, hyperparameter tuning, XAI, RAG, or downstream tasks have been started.
+================================================================================

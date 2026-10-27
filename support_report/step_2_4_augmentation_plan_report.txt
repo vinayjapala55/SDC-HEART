@@ -1,0 +1,166 @@
+STEP 2.4 — CONTROLLED TRAINING AUGMENTATION PLAN
+=================================================
+
+This is a planning/report stage only.
+No augmented WAV files, metadata manifest, or plots have been created yet.
+The finalized split remains unchanged.
+
+BASELINE TRAIN SPLIT (VERIFIED)
+------------------------------
+Train patients: 76
+Train recordings: 608
+Validation patients: 17
+Validation recordings: 136
+Test patients: 16
+Test recordings: 128
+
+Disease-level patient counts:
+- N  = 21
+- AS = 13
+- AR = 18
+- MR = 26
+- MS = 26
+
+Disease combinations:
+- N           = 21
+- MR          = 11
+- MS          = 11
+- MR+MS       = 10
+- AS+AR       = 6
+- AR          = 6
+- AS          = 3
+- AR+MR       = 2
+- AS+AR+MR+MS = 2
+- AR+MR+MS    = 1
+- AS+AR+MS    = 1
+- AS+MS       = 1
+- None        = 1 special case (all-zero patient_022) and must not be converted to Normal
+
+MULTI-LABEL SAFETY RULE
+-----------------------
+This is a multi-label dataset.
+Augmentation must never change the patient disease labels.
+Examples:
+- AS + AR must remain AS + AR after augmentation.
+- AS + AR + MR + MS must remain AS + AR + MR + MS after augmentation.
+- No augmented recording may become AS-only or AR-only.
+- The special None case is not a normal disease label and is excluded from augmentation logic.
+
+AUGMENTATION POLICY
+-------------------
+Goal:
+- improve minority-label and rare-combination representation
+- avoid excessive duplication
+- keep patient count fixed at 76
+- increase only the training recording count
+
+Prioritized groups:
+1. AS single-disease patients
+2. rare AS-containing combinations
+3. AR and other low-count combinations
+4. extremely rare combinations
+
+Do not heavily augment the already common MR and MS groups.
+Use moderate augmentation ratios.
+
+PLANNED AUGMENTATION BUDGET
+--------------------------
+This is the proposed report-only plan before file generation.
+
+Disease combination | Original recordings | Proposed augmented | Final group recordings
+-------------------|--------------------:|-------------------:|----------------------:
+AS                  | 24                  | +24                | 48
+AS+AR               | 48                  | +24                | 72
+AR                  | 48                  | +12                | 60
+AS+AR+MR+MS         | 16                  | +16                | 32
+AR+MR               | 16                  | +8                 | 24
+AS+MS               | 8                   | +8                 | 16
+AS+AR+MS            | 8                   | +8                 | 16
+AR+MR+MS            | 8                   | +8                 | 16
+N                   | 168                 | +0                 | 168
+MR                  | 88                  | +0                 | 88
+MS                  | 88                  | +0                 | 88
+MR+MS               | 80                  | +0                 | 80
+None (special case) | 8                   | +0                 | 8
+
+Total planned augmentation: 108 recordings
+Final train recordings after augmentation: 716
+Train patient count remains: 76
+
+ALLOWED OPERATIONS
+------------------
+- small gain/amplitude scaling
+- small circular time shifting
+- very mild time stretching
+- subtle background-noise addition only if needed
+
+Not allowed:
+- pitch shifting
+- aggressive time stretching
+- extreme amplitude changes
+- unrealistic synthetic heart-sound artifacts
+
+OUTPUT STRUCTURE (PLANNED)
+-------------------------
+dataset/
+    augmented/
+        train/
+
+dataset/metadata/
+    augmentation_manifest.csv
+
+dataset/plots/
+    augmentation/
+
+POST-AUGMENTATION ANALYSIS (PLANNED)
+-----------------------------------
+After augmentation, compute:
+1. disease-level patient and recording counts
+2. disease percentages
+3. disease imbalance ratios
+4. disease-combination counts
+5. before-vs-after comparison
+
+Important rule:
+- Do not count augmented recordings as new patients.
+- Patient count must remain 76.
+- Only training recordings should increase.
+
+QUALITY CONTROL (PLANNED)
+------------------------
+- verify original training WAVs are unchanged
+- verify validation/test WAVs are unchanged
+- verify no patient appears in validation/test after augmentation
+- verify disease labels remain unchanged
+- verify multi-label combinations remain unchanged
+- verify no duplicate filenames
+- verify all generated WAV files are readable
+- verify no clipping or corruption
+
+FINAL REPORT TO BE CREATED
+-------------------------
+Planned output file:
+- dataset/analysis/augmentation_report.txt
+
+This file will include:
+- original training recordings
+- number of augmented recordings
+- final training recordings
+- disease distribution before/after
+- combination distribution before/after
+- augmentation operations used
+- number of augmented files by operation
+- number of augmented files by disease combination
+- patient isolation verification
+- label integrity verification
+- failed files, if any
+
+Status:
+- plan is prepared
+- no augmentation files have been created yet
+- no preprocessing or spectrogram generation has started
+- no training has started
+
+STOP CONDITION:
+This stage ends after the plan and report are reviewed.
+The actual augmentation files and analysis must wait for approval.

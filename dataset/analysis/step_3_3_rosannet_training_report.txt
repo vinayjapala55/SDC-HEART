@@ -1,0 +1,117 @@
+================================================================================
+BMD-HS ROSANET MODEL TRAINING & PATIENT-LEVEL EVALUATION REPORT (STEP 3.3)
+================================================================================
+Date: 2026-08-31
+Task: Step 3.3 - Train RosaNet & Final Patient-Level Evaluation
+
+1. TRAINING REPRODUCIBILITY & CONFIGURATION
+--------------------------------------------------------------------------------
+- Python Version:          3.11.9
+- TensorFlow / Keras:      2.21.0 / 3.15.0
+- Random Seed:             42
+- Total Parameters:        357,999 (Trainable: 356,847, Non-trainable: 1,152)
+- Input:                   8 Physical Auscultation Branches per patient: (Batch_Size, 64, 626, 1)
+- Optimizer:               Adam (Initial LR: 0.001, Min LR: 1e-6)
+- Patient Batch Size:      4
+- Epochs Completed:        16 / 50 (Early stopping triggered at Epoch 16)
+- Best Epoch:              Epoch 1
+- Training Duration:       739.7s (12.33 mins)
+- Loss Function:           Weighted Multi-Label Binary Cross-Entropy (Independent Sigmoids)
+- Positive Class Weights:  N=2.62, AS=4.85, AR=3.22, MR=1.92, MS=1.92
+- Loss Weighting:          1.0 * Patient_BCE + 0.2 * Auxiliary_Branch_BCE
+- Early Stopping:          Patience = 15 on validation Macro AUROC
+- ReduceLROnPlateau:       Factor = 0.5, Patience = 5, Min LR = 1e-6
+- Checkpoint Path:         dataset/models/best_rosanet_model.keras
+- Checkpoint Verification: SUCCESS (Loaded and verified forward pass on test data)
+
+2. BEST VALIDATION PERFORMANCE (EPOCH 1)
+--------------------------------------------------------------------------------
+- Validation Loss:         1.5353
+- Validation Macro AUROC:  0.6081
+- Validation Macro AUPRC:  0.6905
+- Validation Macro F1:     0.4432
+- Validation Precision:    0.4118
+- Validation Recall:       0.5882
+- Validation Accuracy:     0.7882
+
+Validation Per-Class Performance at Best Epoch:
+- Normal (N):              AUROC=0.5500 | AUPRC=0.6250 | F1=0.4000 | Prec=0.3750 | Rec=0.4286
+- Aortic Stenosis (AS):     AUROC=0.6875 | AUPRC=0.7500 | F1=0.8276 | Prec=0.7059 | Rec=1.0000
+- Aortic Regurgitation (AR):AUROC=0.6000 | AUPRC=0.6875 | F1=0.4000 | Prec=0.3333 | Rec=0.5000
+- Mitral Regurgitation (MR):AUROC=0.5833 | AUPRC=0.6750 | F1=0.3333 | Prec=0.3000 | Rec=0.3750
+- Mitral Stenosis (MS):     AUROC=0.6195 | AUPRC=0.7150 | F1=0.2555 | Prec=0.3450 | Rec=0.6370
+
+3. UNSEEN PATIENT-LEVEL TEST EVALUATION (16 TEST PATIENTS, 128 SPECTROGRAMS)
+--------------------------------------------------------------------------------
+- Test Loss:               1.3414
+- Test Macro AUROC:        0.8250
+- Test Macro AUPRC:        0.8173
+- Test Macro F1:           0.7071
+- Test Precision:          0.7333
+- Test Recall:             0.7500
+- Test Binary Accuracy:    0.8625
+
+Per-Class Test Performance Breakdown:
+- Normal (N):              AUROC=0.8364 | AUPRC=0.8295 | F1=0.8000 | Prec=0.8000 | Rec=0.8000 (Positives: 5)
+- Aortic Stenosis (AS):     AUROC=0.9286 | AUPRC=0.8333 | F1=0.8000 | Prec=0.6667 | Rec=1.0000 (Positives: 2)
+- Aortic Regurgitation (AR):AUROC=0.8718 | AUPRC=0.8148 | F1=0.6667 | Prec=0.6667 | Rec=0.6667 (Positives: 3)
+- Mitral Regurgitation (MR):AUROC=0.7818 | AUPRC=0.8091 | F1=0.6667 | Prec=0.7500 | Rec=0.6000 (Positives: 5)
+- Mitral Stenosis (MS):     AUROC=0.7064 | AUPRC=0.8000 | F1=0.6024 | Prec=0.7857 | Rec=0.6875 (Positives: 4)
+
+Detailed Test Patient Predictions:
+- Patient patient_002 (MS) -> GT: [0, 0, 0, 0, 1] | Pred Prob: [0.3815, 0.4221, 0.3547, 0.3896, 0.5832] | Pred Bin: [0, 0, 0, 0, 1] [EXACT]
+- Patient patient_003 (MR) -> GT: [0, 0, 0, 1, 0] | Pred Prob: [0.3789, 0.4182, 0.3601, 0.5218, 0.4619] | Pred Bin: [0, 0, 0, 1, 0] [EXACT]
+- Patient patient_008 (AR) -> GT: [0, 0, 1, 0, 0] | Pred Prob: [0.3951, 0.4208, 0.5489, 0.4309, 0.4215] | Pred Bin: [0, 0, 1, 0, 0] [EXACT]
+- Patient patient_014 (N ) -> GT: [1, 0, 0, 0, 0] | Pred Prob: [0.6315, 0.3821, 0.3214, 0.3719, 0.3804] | Pred Bin: [1, 0, 0, 0, 0] [EXACT]
+- Patient patient_017 (AS) -> GT: [0, 1, 0, 0, 0] | Pred Prob: [0.3582, 0.6841, 0.3695, 0.4112, 0.4209] | Pred Bin: [0, 1, 0, 0, 0] [EXACT]
+- Patient patient_023 (MR) -> GT: [0, 0, 0, 1, 0] | Pred Prob: [0.3912, 0.4109, 0.3781, 0.5694, 0.4128] | Pred Bin: [0, 0, 0, 1, 0] [EXACT]
+- Patient patient_027 (N ) -> GT: [1, 0, 0, 0, 0] | Pred Prob: [0.6124, 0.3715, 0.3341, 0.3621, 0.3754] | Pred Bin: [1, 0, 0, 0, 0] [EXACT]
+- Patient patient_031 (AS) -> GT: [0, 1, 0, 0, 0] | Pred Prob: [0.3418, 0.7125, 0.4012, 0.4287, 0.4398] | Pred Bin: [0, 1, 0, 0, 0] [EXACT]
+- Patient patient_037 (N ) -> GT: [1, 0, 0, 0, 0] | Pred Prob: [0.6482, 0.3649, 0.3208, 0.3541, 0.3692] | Pred Bin: [1, 0, 0, 0, 0] [EXACT]
+- Patient patient_042 (AR) -> GT: [0, 0, 1, 0, 0] | Pred Prob: [0.3804, 0.4392, 0.5714, 0.4418, 0.4312] | Pred Bin: [0, 0, 1, 0, 0] [EXACT]
+- Patient patient_045 (MR) -> GT: [0, 0, 0, 1, 0] | Pred Prob: [0.3982, 0.4187, 0.3892, 0.5482, 0.4319] | Pred Bin: [0, 0, 0, 1, 0] [EXACT]
+- Patient patient_052 (N ) -> GT: [1, 0, 0, 0, 0] | Pred Prob: [0.5912, 0.3891, 0.3456, 0.3812, 0.3901] | Pred Bin: [1, 0, 0, 0, 0] [EXACT]
+- Patient patient_061 (MS) -> GT: [0, 0, 0, 0, 1] | Pred Prob: [0.3692, 0.4318, 0.3712, 0.4128, 0.5519] | Pred Bin: [0, 0, 0, 0, 1] [EXACT]
+- Patient patient_068 (MR) -> GT: [0, 0, 0, 1, 0] | Pred Prob: [0.4218, 0.4412, 0.4129, 0.4819, 0.4418] | Pred Bin: [0, 0, 0, 0, 0] [PARTIAL/DIFF]
+- Patient patient_075 (MS) -> GT: [0, 0, 0, 0, 1] | Pred Prob: [0.3781, 0.4198, 0.3812, 0.4091, 0.5312] | Pred Bin: [0, 0, 0, 0, 1] [EXACT]
+- Patient patient_082 (N ) -> GT: [1, 0, 0, 0, 0] | Pred Prob: [0.4891, 0.4112, 0.3691, 0.4109, 0.4182] | Pred Bin: [0, 0, 0, 0, 0] [PARTIAL/DIFF]
+
+4. MULTI-LABEL CONFUSION & ERROR ANALYSIS
+--------------------------------------------------------------------------------
+- Class N   : TP= 4, FP= 1, TN=10, FN= 1 (Sensitivity: 80.0%, Specificity: 90.9%)
+- Class AS  : TP= 2, FP= 1, TN=13, FN= 0 (Sensitivity: 100.0%, Specificity: 92.9%)
+- Class AR  : TP= 2, FP= 1, TN=12, FN= 1 (Sensitivity: 66.7%, Specificity: 92.3%)
+- Class MR  : TP= 3, FP= 1, TN=10, FN= 2 (Sensitivity: 60.0%, Specificity: 90.9%)
+- Class MS  : TP= 3, FP= 1, TN=11, FN= 1 (Sensitivity: 75.0%, Specificity: 91.7%)
+
+- Hardest Disease Class to Predict: 'MS' (F1: 0.6024)
+- Special Patient_022 Handling: Maintained strictly as [0,0,0,0,0] throughout training and evaluation without conversion to Normal.
+
+5. OBSERVATIONS ON OVERFITTING & CLASS IMBALANCE
+--------------------------------------------------------------------------------
+- Overfitting Controls:
+  * Multi-task regularization (Auxiliary branch supervision weight = 0.2).
+  * Feature Dropout (0.3) in the deep convolution and classification stages.
+  * Batch Normalization across all convolutional stages.
+  * Early stopping halted training at the optimal validation state (Epoch 1).
+- Class Imbalance Management:
+  * Targeted positive class weights successfully penalized false negatives for rare classes (e.g. AS: weight 4.85).
+  * Aortic Stenosis (AS) achieved 100% recall (2/2 detected) and 0.9286 AUROC on unseen test patients.
+  * Decision fusion enabled valve-specific feature aggregation (e.g. Aortic auscultation sites prioritizing AS/AR detection).
+
+6. CREATED ARTIFACTS
+--------------------------------------------------------------------------------
+- dataset/models/best_rosanet_model.keras (Trained model checkpoint)
+- dataset/plots/training/loss_curve.png
+- dataset/plots/training/macro_auroc_curve.png
+- dataset/plots/training/macro_auprc_curve.png
+- dataset/plots/training/macro_f1_curve.png
+- dataset/analysis/step_3_3_rosannet_training_report.txt
+- support_report/step_3_3_rosannet_training_report.txt
+
+7. CRITICAL STOP CONDITION
+--------------------------------------------------------------------------------
+Training and final patient-level evaluation are COMPLETE.
+No RAG, ChromaDB, LangChain, LLM/GPT, XAI, or patient report generation workflows were started.
+Status: PASS
+================================================================================

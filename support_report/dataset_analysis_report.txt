@@ -1,0 +1,177 @@
+
+DATASET ANALYSIS REPORT
+======================
+
+ROOT: c:\Users\chara\Downloads\BMDF\BMD-HS-Dataset-main
+CSV files: additional_metadata.csv, train.csv
+WAV directories: train
+WAV files: 872
+CSV files: 2
+
+1. CSV STRUCTURE
+train.csv columns: patient_id, AS, AR, MR, MS, N, recording_1, recording_2, recording_3, recording_4, recording_5, recording_6, recording_7, recording_8
+train.csv rows: 109
+train.head(10):
+ patient_id  AS  AR  MR  MS   N    recording_1    recording_2    recording_3    recording_4    recording_5    recording_6    recording_7    recording_8
+patient_001 1.0 1.0 1.0 1.0 0.0 MD_001_sup_Mit MD_001_sup_Tri MD_001_sup_Pul MD_001_sup_Aor MD_001_sit_Mit MD_001_sit_Tri MD_001_sit_Pul MD_001_sit_Aor
+patient_002 0.0 0.0 1.0 0.0 0.0 MR_002_sup_Mit MR_002_sup_Tri MR_002_sup_Pul MR_002_sup_Aor MR_002_sit_Mit MR_002_sit_Tri MR_002_sit_Pul MR_002_sit_Aor
+patient_003 1.0 1.0 0.0 0.0 0.0 MD_003_sup_Mit MD_003_sup_Tri MD_003_sup_Pul MD_003_sup_Aor MD_003_sit_Mit MD_003_sit_Tri MD_003_sit_Pul MD_003_sit_Aor
+patient_004 0.0 0.0 1.0 0.0 0.0 MR_004_sup_Mit MR_004_sup_Tri MR_004_sup_Pul MR_004_sup_Aor MR_004_sit_Mit MR_004_sit_Tri MR_004_sit_Pul MR_004_sit_Aor
+patient_005 1.0 0.0 0.0 0.0 0.0 AS_005_sup_Mit AS_005_sup_Tri AS_005_sup_Pul AS_005_sup_Aor AS_005_sit_Mit AS_005_sit_Tri AS_005_sit_Pul AS_005_sit_Aor
+patient_006 0.0 0.0 0.0 1.0 0.0 MS_006_sup_Mit MS_006_sup_Tri MS_006_sup_Pul MS_006_sup_Aor MS_006_sit_Mit MS_006_sit_Tri MS_006_sit_Pul MS_006_sit_Aor
+patient_007 1.0 1.0 0.0 0.0 0.0 MD_007_sup_Mit MD_007_sup_Tri MD_007_sup_Pul MD_007_sup_Aor MD_007_sit_Mit MD_007_sit_Tri MD_007_sit_Pul MD_007_sit_Aor
+patient_008 0.0 0.0 1.0 1.0 0.0 MD_008_sup_Mit MD_008_sup_Tri MD_008_sup_Pul MD_008_sup_Aor MD_008_sit_Mit MD_008_sit_Tri MD_008_sit_Pul MD_008_sit_Aor
+patient_009 1.0 1.0 0.0 0.0 0.0 MD_009_sup_Mit MD_009_sup_Tri MD_009_sup_Pul MD_009_sup_Aor MD_009_sit_Mit MD_009_sit_Tri MD_009_sit_Pul MD_009_sit_Aor
+patient_010 0.0 0.0 1.0 0.0 0.0 MR_010_sup_Mit MR_010_sup_Tri MR_010_sup_Pul MR_010_sup_Aor MR_010_sit_Mit MR_010_sit_Tri MR_010_sit_Pul MR_010_sit_Aor
+train missing values:
+patient_id     0
+AS             1
+AR             1
+MR             1
+MS             1
+N              1
+recording_1    0
+recording_2    0
+recording_3    0
+recording_4    0
+recording_5    0
+recording_6    0
+recording_7    0
+recording_8    0
+train duplicate rows: 0
+additional_metadata.csv columns: patient_id, Age, Gender, Smoker, Lives
+additional_metadata rows: 109
+additional_metadata head(10):
+ patient_id   Age Gender  Smoker Lives
+patient_001 30-39      M       1     U
+patient_002 30-39      M       1     U
+patient_003 10-19      M       0     U
+patient_004 20-29      M       0     R
+patient_005 40-49      M       0     R
+patient_006 30-39      M       1     U
+patient_007 30-39      M       0     R
+patient_008 50-59      M       1     U
+patient_009 20-29      M       1     U
+patient_010 20-29      F       0     R
+
+Clinical columns identified:
+- patient_id: identifier for each patient
+- AS / AR / MR / MS / N: disease flag columns (0/1)
+- recording_1 .. recording_8: WAV filenames tied to patient
+- Age, Gender, Smoker, Lives: metadata columns in additional_metadata.csv
+
+2. WAV FILES
+Total recordings: 872
+Filename pattern: <diag>_<patient>_<pos>_<valve>.wav
+Example files: AR_016_sit_Aor.wav, AR_016_sit_Mit.wav, AR_016_sit_Pul.wav, AR_016_sit_Tri.wav, AR_016_sup_Aor.wav, AR_016_sup_Mit.wav, AR_016_sup_Pul.wav, AR_016_sup_Tri.wav, AR_034_sit_Aor.wav, AR_034_sit_Mit.wav
+Patient ID pattern: numeric suffix after disease prefix, e.g. 001, 016, 034, 053
+Valve/location pattern: Aor -> Aortic, Mit -> Mitral, Pul -> Pulmonary, Tri -> Tricuspid
+Sampling rates: 4000: 872
+Duration range: 15.0 to 20.00425 seconds
+Channels: 1: 872
+Unreadable WAV files: 0
+
+3. CSV-WAV MAPPING
+Representative rows:
+patient_001 | MD_001_sup_Mit.wav | Mitral | AS+AR+MR+MS
+patient_001 | MD_001_sup_Tri.wav | Tricuspid | AS+AR+MR+MS
+patient_001 | MD_001_sup_Pul.wav | Pulmonary | AS+AR+MR+MS
+patient_001 | MD_001_sup_Aor.wav | Aortic | AS+AR+MR+MS
+patient_001 | MD_001_sit_Mit.wav | Mitral | AS+AR+MR+MS
+patient_001 | MD_001_sit_Tri.wav | Tricuspid | AS+AR+MR+MS
+patient_001 | MD_001_sit_Pul.wav | Pulmonary | AS+AR+MR+MS
+patient_001 | MD_001_sit_Aor.wav | Aortic | AS+AR+MR+MS
+
+4. MULTI-LABEL ANALYSIS
+Distinct disease combinations actually present:
+AR
+AR+MR
+AR+MR+MS
+AR+MS
+AS
+AS+AR
+AS+AR+MR
+AS+AR+MR+MS
+AS+AR+MS
+AS+MR
+AS+MS
+MR
+MR+MS
+MS
+N
+None
+
+Most common combination: AS+AR (16 patients)
+Rarest combinations: AS+AR+MR (1 patient), None (1 patient)
+
+5. FOUR VALVE LOCATIONS
+Aortic: 218 recordings, 109 patients
+Mitral: 218 recordings, 109 patients
+Pulmonary: 218 recordings, 109 patients
+Tricuspid: 218 recordings, 109 patients
+Patients missing some valve locations: none
+
+6. PATIENT-LEVEL STATISTICS
+Total patients: 109
+Total recordings: 872
+Patients per disease:
+AS: 37
+AR: 43
+MR: 38
+MS: 38
+N: 21
+
+7. CLASS IMBALANCE
+Normal: positive 21, negative 88, positive pct 19.27%, negative pct 80.73%, ratio 0.24
+AS: positive 37, negative 72, positive pct 33.94%, negative pct 66.06%, ratio 0.51
+AR: positive 43, negative 66, positive pct 39.45%, negative pct 60.55%, ratio 0.65
+MR: positive 38, negative 71, positive pct 34.86%, negative pct 65.14%, ratio 0.54
+MS: positive 38, negative 71, positive pct 34.86%, negative pct 65.14%, ratio 0.54
+Majority disease: AR
+Minority disease: N
+Most common combination: AS+AR
+Rarest combinations: AS+AR+MR and None
+
+8. DATA QUALITY CHECKS
+WAV files without CSV metadata: 0
+CSV records without WAV files: 0
+Duplicate patient IDs: 0
+Duplicate recordings: 0
+Missing disease labels: 0
+Invalid disease labels: 0
+Invalid valve names: 0
+Suspicious filenames: 0
+Unreadable WAV files: 0
+
+Important anomaly:
+- One row has all AS/AR/MR/MS/N flags = 0. This is a special non-disease/None case and should be treated as a dataset anomaly, not as a valid disease label.
+
+9. FINAL SUMMARY
+DATASET SUMMARY
+---------------
+Patients: 109
+Recordings: 872
+CSV: 2
+Disease labels: AS, AR, MR, MS, N
+Disease combinations: 16 distinct combinations
+Valve locations: Aortic, Mitral, Pulmonary, Tricuspid
+Sampling rates: 4000 Hz
+Duration range: 15.0s to 20.00425s
+
+CLASS BALANCE
+-------------
+Normal: 21
+AS: 37
+AR: 43
+MR: 38
+MS: 38
+
+DATA QUALITY
+------------
+Missing WAVs: 0
+Missing CSV records: 0
+Duplicate recordings: 0
+Invalid labels: 0
+Unreadable WAVs: 0
+
+No augmentation, no preprocessing, no Mel spectrogram generation, no RosaNet, and no model training were performed.

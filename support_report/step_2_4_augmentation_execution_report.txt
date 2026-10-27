@@ -1,0 +1,64 @@
+BMD-HS TRAINING-ONLY AUGMENTATION REPORT
+=======================================
+
+Original training WAV count: 608
+Augmented WAV count: 108
+Final training WAV count: 716
+Validation WAV count: 136
+Test WAV count: 128
+
+Patient isolation verification:
+- Train patients remain 76.
+- Validation patients remain 17 and were not augmented.
+- Test patients remain 16 and were not augmented.
+- No patient overlap exists between splits.
+
+Disease recording counts before augmentation:
+- N: 168
+- AS: 104
+- AR: 144
+- MR: 208
+- MS: 208
+
+Disease recording counts after augmentation:
+- N: 168
+- AS: 184
+- AR: 220
+- MR: 240
+- MS: 248
+
+Augmentation count by disease combination:
+- AS: 24
+- AS+AR: 24
+- AR: 12
+- AS+AR+MR+MS: 16
+- AR+MR: 8
+- AS+MS: 8
+- AS+AR+MS: 8
+- AR+MR+MS: 8
+
+Augmentation operation counts:
+- gain: 27
+- shift: 27
+- stretch: 27
+- noise: 27
+
+Label integrity verification:
+- Every augmented recording retained the original patient disease labels and multi-label combination.
+- The special all-zero patient_022 was excluded from augmentation and not converted into Normal.
+- Disease labels were copied directly from training metadata; filenames were not used to infer labels.
+
+Valve-location integrity verification:
+- Valve locations were preserved exactly from each source recording filename.
+- Validation/test data was not modified.
+
+Corruption/clipping verification:
+- All generated WAV files were written successfully and read back successfully with soundfile.
+- No generated signal exceeded the safe clipping threshold.
+- Duplicate filenames were prevented.
+
+Important note:
+Because the dataset is multi-label, disease-specific recording totals can exceed the total number of physical WAV files. This is expected and reflects label membership rather than unique patient count.
+
+STOP CONDITION:
+No preprocessing, filtering, resampling, spectrogram generation, nor model training occurred in this stage.

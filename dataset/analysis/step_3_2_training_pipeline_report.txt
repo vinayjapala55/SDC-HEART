@@ -1,0 +1,102 @@
+================================================================================
+BMD-HS ROSANET TRAINING PIPELINE VERIFICATION REPORT (STEP 3.2)
+================================================================================
+Date: 2026-08-31
+Task: Step 3.2 - RosaNet Training Pipeline Verification & Configuration
+
+1. PATIENT GROUPING & 8-BRANCH PHYSICAL AUSCULTATION SITES
+--------------------------------------------------------------------------------
+- Total Patients: 109 (Train: 76, Validation: 17, Test: 16)
+- Patient Isolation: 0 Patient Overlap across splits (PASS)
+- Auscultation Sites per Patient (8 standard physical branches):
+  1. sit_Aor (Sitting Aortic)
+  2. sit_Mit (Sitting Mitral)
+  3. sit_Pul (Sitting Pulmonary)
+  4. sit_Tri (Sitting Tricuspid)
+  5. sup_Aor (Supine Aortic)
+  6. sup_Mit (Supine Mitral)
+  7. sup_Pul (Supine Pulmonary)
+  8. sup_Tri (Supine Tricuspid)
+- Augmentation Handling:
+  * 108 augmented recordings exist ONLY in the training split.
+  * Augmented recordings map to the source patient's existing 8 physical auscultation sites.
+  * Augmented recordings are NEVER treated as an extra 9th branch.
+  * In the data loader, augmented recordings form additional 8-branch patient sample instances.
+
+2. INPUT TENSOR & TEMPORAL STANDARDIZATION
+--------------------------------------------------------------------------------
+- Model Input Shape per Branch: (Batch_Size, 64, 626, 1)
+- Total Branches per Patient: 8
+- Temporal Dimension Standardization:
+  * T == 626 (978 recordings): Loaded directly.
+  * T < 626 (e.g. MD_001_sup_Tri, T=469): Padded with minimum dB silence floor.
+  * T > 626: Centrally cropped to 626 steps.
+
+3. MULTI-LABEL TARGET FORMULATION & SPECIAL CASES
+--------------------------------------------------------------------------------
+- Target Classes: [N, AS, AR, MR, MS] (5 independent binary outputs)
+- Output Activation: Sigmoid (bounded in [0, 1]^5)
+- Standard Disease Encodings:
+  * Normal:                  [1.0, 0.0, 0.0, 0.0, 0.0]
+  * Aortic Stenosis (AS):     [0.0, 1.0, 0.0, 0.0, 0.0]
+  * Aortic Regurgitation (AR):[0.0, 0.0, 1.0, 0.0, 0.0]
+  * Mitral Regurgitation (MR):[0.0, 0.0, 0.0, 1.0, 0.0]
+  * Mitral Stenosis (MS):     [0.0, 0.0, 0.0, 0.0, 1.0]
+  * Multi-Disease (AS+AR):   [0.0, 1.0, 1.0, 0.0, 0.0]
+  * Multi-Disease (All 4):   [0.0, 1.0, 1.0, 1.0, 1.0]
+- Special Case (patient_022 - Mitral Valve Prolapse):
+  * Target Vector: [0.0, 0.0, 0.0, 0.0, 0.0] (PASS)
+  * Clinical distinction preserved: Patient has MVP (no targeted valvular disease flags, not Normal).
+
+4. LOSS & MULTI-LABEL CLINICAL METRICS
+--------------------------------------------------------------------------------
+- Loss Formulation: Multi-Label Binary Cross-Entropy (losses.BinaryCrossentropy)
+- Multi-Task Supervision:
+  * Primary Patient Loss Weight: 1.0
+  * Auxiliary Branch Loss Weight: 0.2
+- Multi-Label Class Imbalance Pos-Weights (Train Split):
+  * N:  2.62
+  * AS: 4.85
+  * AR: 3.22
+  * MR: 1.92
+  * MS: 1.92
+- Primary Evaluation Metrics:
+  * Macro AUROC (tf.keras.metrics.AUC(curve='ROC', multi_label=True))
+  * Macro AUPRC (tf.keras.metrics.AUC(curve='PR', multi_label=True))
+  * Precision, Recall, Binary Accuracy, Macro F1
+
+5. MODEL ARCHITECTURE & PARAMETERS
+--------------------------------------------------------------------------------
+- Architecture: RosaNet (Multi-path CNN + Split-Self-Attention + Spatial/Temporal Attention + Decision Fusion)
+- Total Parameters:         357,999
+- Trainable Parameters:     356,847
+- Non-trainable Parameters: 1,152
+- Branch Output Shape:      (B, 8, 5)
+- Patient Output Shape:     (B, 5)
+- Forward Pass: VERIFIED on real Mel spectrogram batches.
+
+6. DATA LEAKAGE INTEGRITY
+--------------------------------------------------------------------------------
+- Train ∩ Validation: 0 (Empty)
+- Train ∩ Test:       0 (Empty)
+- Validation ∩ Test:  0 (Empty)
+- Validation Augmented: 0
+- Test Augmented:       0
+- Status: PASS
+
+7. TRAINING HYPERPARAMETER SPECIFICATION (CONFIGURED, NOT RUN)
+--------------------------------------------------------------------------------
+- Random Seed:            42
+- Patient Batch Size:     4
+- Optimizer:              Adam (lr=1e-3, beta_1=0.9, beta_2=0.999, eps=1e-7)
+- Target Epochs:          50
+- Early Stopping:         Patience = 15 epochs (monitored on val_macro_auroc)
+- Learning Rate Schedule: ReduceLROnPlateau (factor=0.5, patience=5, min_lr=1e-6)
+- Checkpoint:             Save best model to dataset/models/best_rosanet_model.keras
+
+8. CRITICAL STOP CONDITION
+--------------------------------------------------------------------------------
+Training pipeline verification is COMPLETE.
+No training runs, hyperparameter sweeps, XAI, RAG, ChromaDB, or LLM calls were executed.
+Status: PASS
+================================================================================

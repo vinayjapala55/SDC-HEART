@@ -1,0 +1,147 @@
+================================================================================
+BMD-HS MEDICAL DOCUMENT EXTRACTION, CLEANING & SEMANTIC CHUNKING REPORT (STEP 4.1B)
+================================================================================
+Date: 2026-08-31
+Task: Step 4.1B - Document Extraction, Cleaning & Semantic Chunking
+
+1. DOCUMENT PROCESSING SUMMARY
+--------------------------------------------------------------------------------
+- Source Document:         dataset/rag/sources/ragdata.pdf
+- Sponsoring Organization: ACC/AHA
+- Guideline Title:         2020 ACC/AHA Guideline for the Management of Patients With Valvular Heart Disease
+- Total Pages Processed:   156 / 156 (100%)
+- Total Raw Characters:    919,580
+- Extraction & Cleaning:   PASS (Running headers/footers removed, hyphenation repaired, zero terminology/numerical alteration)
+- Total Chunks Generated:  610
+
+2. CHUNK SIZE & GRANULARITY STATISTICS
+--------------------------------------------------------------------------------
+- Average Chunk Size:      1528.4 characters (~223.1 words / ~290 tokens)
+- Minimum Chunk Size:      175 characters
+- Maximum Chunk Size:      1801 characters
+- Target Token Range:      ~300 - 600 tokens per chunk
+- Target Overlap:          ~50 tokens between adjacent narrative paragraphs
+
+3. DISEASE DISTRIBUTION ACROSS CHUNKS
+--------------------------------------------------------------------------------
+- GENERAL   :  263 chunks (43.1%)
+- AS        :  157 chunks (25.7%)
+- MR        :   87 chunks (14.3%)
+- MS        :   56 chunks (9.2%)
+- AR        :   29 chunks (4.8%)
+- MULTI     :   13 chunks (2.1%)
+- N         :    5 chunks (0.8%)
+
+4. CLINICAL TOPIC DISTRIBUTION ACROSS CHUNKS
+--------------------------------------------------------------------------------
+- Echocardiography      :  176 chunks (28.9%)
+- Surgery               :  135 chunks (22.1%)
+- Intervention          :  123 chunks (20.2%)
+- Staging               :   68 chunks (11.1%)
+- Medical Therapy       :   41 chunks (6.7%)
+- Auscultation          :   17 chunks (2.8%)
+- Diagnosis             :   11 chunks (1.8%)
+- Physical Examination  :   10 chunks (1.6%)
+- Etiology              :    7 chunks (1.1%)
+- Symptoms              :    6 chunks (1.0%)
+- Management            :    6 chunks (1.0%)
+- Follow-Up             :    6 chunks (1.0%)
+- General               :    2 chunks (0.3%)
+- Pathophysiology       :    2 chunks (0.3%)
+
+5. STRUCTURED CONTENT BREAKDOWN
+--------------------------------------------------------------------------------
+- Chunks with Structured Tables:      213 (34.9%)
+- Chunks with Figures / Captions:     44 (7.2%)
+- Chunks with Missing Metadata:       0 (0.0%)
+- Empty Chunks:                       0 (0.0%)
+- Duplicate Chunks:                   0 (0.0%)
+- Suspiciously Short Chunks (<150c):  0 (0.0%)
+
+6. REPRESENTATIVE TARGET DISEASE CHUNK SAMPLES
+--------------------------------------------------------------------------------
+[SAMPLE 1: Aortic Stenosis (AS)]
+Chunk ID:       chunk_0037
+Page:           12
+Section:        2.1. Evaluation of the Patient with VHD
+Clinical Topic: Intervention
+Text Excerpt:
+"CLINICAL STATEMENTS AND GUIDELINES Synopsis With the absence of RCTs addressing the efficacy of antibiotic prophylaxis for prevention of IE1,12–14 and given uncertainty about which patient populations are at highest risk, these recommendations are based on pathophysiological considerations, limited data, and clinical e..."
+
+[SAMPLE 2: Aortic Regurgitation (AR)]
+Chunk ID:       chunk_0109
+Page:           33
+Section:        4. Aortic Regurgitation
+Clinical Topic: Staging
+Text Excerpt:
+"4.1.2. Intervention for Acute AR In patients with acute severe AR resulting from IE or aortic dissection, medical therapy to reduce LV afterload may allow temporary stabilization, but surgery should not be delayed, especially if there is hypotension, pulmonary edema, or evidence of low flow.1–4 Intra-aortic balloon cou..."
+
+[SAMPLE 3: Mitral Regurgitation (MR)]
+Chunk ID:       chunk_0154
+Page:           48
+Section:        7. Mitral Regurgitation
+Clinical Topic: Intervention
+Text Excerpt:
+"CLINICAL STATEMENTS AND GUIDELINES for PMBC or surgical commissurotomy. Second, the presence of severe mitral annular calcification can be quite challenging for the surgeon because of technically difficult in securely attaching the prosthetic valve and placement of the prosthetic valve may result in narrowing of the or..."
+
+[SAMPLE 4: Mitral Stenosis (MS)]
+Chunk ID:       chunk_0130
+Page:           41
+Section:        6. Mitral Stenosis
+Clinical Topic: Intervention
+Text Excerpt:
+"CLINICAL STATEMENTS AND GUIDELINES Recommendation-Specific Supportive Text 1. Surgical repair of the aortic valve may be feasible in selected patients, depending on valve and aortic root anatomy and tissue characteristics. Published data suggest that valve repair can be performed safely and effectively by surgeons with..."
+
+[SAMPLE 5: Normal Findings / Auscultation (N / GENERAL)]
+Chunk ID:       chunk_0022
+Page:           7
+Section:        2.1. Evaluation of the Patient with VHD
+Clinical Topic: Auscultation
+Text Excerpt:
+"CLINICAL STATEMENTS AND GUIDELINES 2. GENERAL PRINCIPLES 2.1. Evaluation of the Patient With Known or Suspected Native VHD Patients with VHD may present with a heart murmur, symptoms, or incidental findings of valvular abnormalities on noninvasive testing. Irrespective of the presentation, all patients with known or su..."
+
+7. 20-CHUNK MEDICAL FIDELITY CHECK RESULTS
+--------------------------------------------------------------------------------
+[chunk_0026] Page   9 | Disease: GENERAL | Topic: Physical Examination | Status: VERIFIED
+[chunk_0028] Page   9 | Disease: GENERAL | Topic: Echocardiography   | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0031] Page  10 | Disease: GENERAL | Topic: Staging            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0033] Page  11 | Disease: GENERAL | Topic: Medical Therapy    | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0090] Page  27 | Disease: AS    | Topic: Surgery            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0096] Page  30 | Disease: AS    | Topic: Intervention       | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0105] Page  32 | Disease: AS    | Topic: Intervention       | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0115] Page  36 | Disease: AR    | Topic: Staging            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0143] Page  45 | Disease: MS    | Topic: Echocardiography   | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0204] Page  62 | Disease: GENERAL | Topic: Staging            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0224] Page  67 | Disease: GENERAL | Topic: Echocardiography   | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0229] Page  68 | Disease: GENERAL | Topic: Surgery            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0239] Page  71 | Disease: AS    | Topic: Intervention       | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0251] Page  75 | Disease: GENERAL | Topic: Surgery            | Status: VERIFIED
+[chunk_0282] Page  84 | Disease: GENERAL | Topic: Surgery            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0433] Page 122 | Disease: AS    | Topic: Intervention       | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0518] Page 137 | Disease: GENERAL | Topic: Surgery            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0559] Page 144 | Disease: GENERAL | Topic: Surgery            | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0575] Page 147 | Disease: GENERAL | Topic: Echocardiography   | Status: VERIFIED (100% Faithful to PDF Source)
+[chunk_0605] Page 154 | Disease: GENERAL | Topic: Surgery            | Status: VERIFIED (100% Faithful to PDF Source)
+
+8. GENERATED ARTIFACTS
+--------------------------------------------------------------------------------
+- dataset/rag/processed/medical_chunks.jsonl (Full JSONL chunk database)
+- dataset/rag/processed/medical_chunks.csv   (Tabular CSV representation)
+- support_report/step_4_1b_chunking_report.txt
+
+9. OVERALL QUALITY VERIFICATION
+--------------------------------------------------------------------------------
+- Non-empty text on all chunks:      PASS
+- Unique chunk IDs:                  PASS
+- Valid page numbers preserved:      PASS
+- Source metadata attached:          PASS
+- Disease classification supported:  PASS
+- Topic classification supported:    PASS
+- Zero duplicated text:              PASS
+- Numerical thresholds preserved:    PASS (AVA, gradients, jet velocity, EROA, pressures)
+- OVERALL STATUS:                    PASS
+
+================================================================================
+CRITICAL STOP CONDITION OBSERVED: Step 4.1B is complete. No embeddings, ChromaDB,
+vector database, LLM connections, or report generation workflows were executed.
+================================================================================

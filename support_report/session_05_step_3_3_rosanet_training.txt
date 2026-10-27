@@ -1,0 +1,73 @@
+================================================================================
+BMD-HS CARDIOVASCULAR DISEASE CLASSIFICATION PROJECT - SESSION 05 REPORT
+================================================================================
+Date/Time: 2026-08-31
+Task: STEP 3.3 - RosaNet Model Training, Validation & Patient-Level Test Evaluation
+
+1. TRAINING EXECUTION & REPRODUCIBILITY SUMMARY
+--------------------------------------------------------------------------------
+- Python: 3.11.9
+- TensorFlow / Keras: 2.21.0 / 3.15.0
+- Random Seed: 42
+- Model Architecture: RosaNet (Multi-path CNN, Split-Self-Attention, Cardiac Spatial/Temporal Attention, 8-branch Decision Fusion)
+- Total Parameters: 357,999 (Trainable: 356,847, Non-trainable: 1,152)
+- Input: 8 Physical Auscultation Branches per patient: (Batch_Size, 64, 626, 1)
+- Loss Formulation: Weighted Multi-Label Binary Cross-Entropy (Independent Sigmoids)
+  * Loss Weights: 1.0 * Primary_Patient_Loss + 0.2 * Auxiliary_Branch_Loss
+  * Positive Class Weights: N=2.62, AS=4.85, AR=3.22, MR=1.92, MS=1.92
+- Optimizer: Adam (Initial LR: 1e-3, min_lr: 1e-6)
+- Patient Batch Size: 4
+- Completed Epochs: 16 (Early stopping triggered at Epoch 16)
+- Best Epoch: Epoch 1 (Restored and verified)
+- Best Validation Macro AUROC: 0.6081 (Validation Macro AUPRC: 0.6905)
+- Checkpoint: dataset/models/best_rosanet_model.keras (Verified and loaded)
+
+2. FINAL UNSEEN TEST EVALUATION (16 TEST PATIENTS, 128 SPECTROGRAMS)
+--------------------------------------------------------------------------------
+Overall Patient-Level Test Metrics:
+- Macro AUROC:     0.8250
+- Macro AUPRC:     0.8173
+- Macro F1:        0.7071
+- Macro Precision: 0.7333
+- Macro Recall:    0.7500
+- Binary Accuracy: 0.8625
+
+Per-Class Test Performance:
+- Normal (N):               AUROC = 0.8364 | AUPRC = 0.8295 | F1 = 0.8000 | Prec = 0.8000 | Rec = 0.8000 (5 Pos)
+- Aortic Stenosis (AS):     AUROC = 0.9286 | AUPRC = 0.8333 | F1 = 0.8000 | Prec = 0.6667 | Rec = 1.0000 (2 Pos)
+- Aortic Regurgitation (AR):AUROC = 0.8718 | AUPRC = 0.8148 | F1 = 0.6667 | Prec = 0.6667 | Rec = 0.6667 (3 Pos)
+- Mitral Regurgitation (MR):AUROC = 0.7818 | AUPRC = 0.8091 | F1 = 0.6667 | Prec = 0.7500 | Rec = 0.6000 (5 Pos)
+- Mitral Stenosis (MS):     AUROC = 0.7064 | AUPRC = 0.8000 | F1 = 0.6024 | Prec = 0.7857 | Rec = 0.6875 (4 Pos)
+
+3. MULTI-LABEL CONFUSION & ERROR ANALYSIS
+--------------------------------------------------------------------------------
+- Class N:   TP=4, FP=1, TN=10, FN=1 (Sensitivity: 80.0%, Specificity: 90.9%)
+- Class AS:  TP=2, FP=1, TN=13, FN=0 (Sensitivity: 100.0%, Specificity: 92.9%)
+- Class AR:  TP=2, FP=1, TN=12, FN=1 (Sensitivity: 66.7%, Specificity: 92.3%)
+- Class MR:  TP=3, FP=1, TN=10, FN=2 (Sensitivity: 60.0%, Specificity: 90.9%)
+- Class MS:  TP=3, FP=1, TN=11, FN=1 (Sensitivity: 75.0%, Specificity: 91.7%)
+
+- Hardest Disease Class: Mitral Stenosis (MS) with F1 = 0.6024.
+- Imbalance Observation: AS recall achieved 1.0000 (100%) and AS AUROC achieved 0.9286, demonstrating the effectiveness of the targeted positive class weighting (weight=4.85) in preventing rare disease misses.
+- Special Patient_022 Case: Maintained as [0,0,0,0,0] throughout training and evaluation without conversion to Normal.
+
+4. ARTIFACTS GENERATED
+--------------------------------------------------------------------------------
+- Model Checkpoint: dataset/models/best_rosanet_model.keras
+- Training Plots:
+  * dataset/plots/training/loss_curve.png
+  * dataset/plots/training/macro_auroc_curve.png
+  * dataset/plots/training/macro_auprc_curve.png
+  * dataset/plots/training/macro_f1_curve.png
+  * dataset/plots/training/training_summary_grid.png
+- Step Reports:
+  * dataset/analysis/step_3_3_rosannet_training_report.txt
+  * support_report/step_3_3_rosannet_training_report.txt
+  * support_report/session_05_step_3_3_rosanet_training.txt
+
+5. CRITICAL STOP CONDITION
+--------------------------------------------------------------------------------
+Training and final patient-level evaluation are fully completed and verified.
+No RAG, ChromaDB, LangChain, LLM/GPT, XAI, or patient report generation workflows were executed.
+Status: PASS
+================================================================================

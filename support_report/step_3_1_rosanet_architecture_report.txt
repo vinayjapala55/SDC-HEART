@@ -1,0 +1,85 @@
+================================================================================
+BMD-HS ROSANET MODEL ARCHITECTURE & PIPELINE REPORT (STEP 3.1)
+================================================================================
+Date: 2026-08-31
+Task: Step 3.1 - RosaNet Model Architecture with Attention and Decision Fusion
+
+1. PATIENT GROUPING & SPLIT INTEGRITY
+--------------------------------------------------------------------------------
+- Total Patients: 109 (Train: 76, Val: 17, Test: 16)
+- Patient Overlap: 0 (Strict patient-level isolation preserved)
+- Total Mel Spectrograms: 980
+  * Train: 716 (608 original + 108 augmented across 76 patients)
+  * Validation: 136 (136 original across 17 patients)
+  * Test: 128 (128 original across 16 patients)
+- Augmentation Isolation: Augmented spectrograms exist ONLY in Train (0 in Val, 0 in Test).
+- Valve Locations Preserved: Aortic (Aor), Mitral (Mit), Pulmonary (Pul), Tricuspid (Tri)
+- Postures Preserved: Sitting (sit), Supine (sup)
+
+2. SPECIAL ALL-ZERO ANNOTATION (patient_022)
+--------------------------------------------------------------------------------
+- Clinical Diagnosis: Mitral Valve Prolapse (MVP)
+- Target Representation: [0.0, 0.0, 0.0, 0.0, 0.0]
+- Clinical vs Label Distinction:
+  * N = 1 indicates clinically Normal (healthy).
+  * [0, 0, 0, 0, 0] indicates patient has no active flags for the 4 targeted valvular
+    diseases (AS, AR, MR, MS) and is NOT Normal (has MVP).
+  * Accurately preserved; not converted into Normal.
+
+3. ROSANET MODEL ARCHITECTURE
+--------------------------------------------------------------------------------
+- Input Representation:
+  * 8 distinct physical auscultation branches per patient:
+    (sit_Aor, sit_Mit, sit_Pul, sit_Tri, sup_Aor, sup_Mit, sup_Pul, sup_Tri)
+  * Input tensor per branch: (B, 64, 626, 1) Log-Mel Spectrogram
+
+- Feature Extractor (RosaNet Backbone):
+  * Multi-Path Receptive Field Convolutional Block:
+    - Path 1: 3x3 Conv2D (16 filters) + BN + ReLU
+    - Path 2: 5x5 Conv2D (16 filters) + BN + ReLU
+    - Path 3: 7x7 Conv2D (16 filters) + BN + ReLU
+    - Path 4: 1x1 Conv2D (16 filters) + BN + ReLU
+    - Concatenation -> 64-channel multi-scale feature map + MaxPool(2,2) + Dropout
+  * Deep Conv Stage: Conv2D(64) + Conv2D(128) + Split-Self-Attention Block
+  * Global Feature Pooling: Hybrid GAP + GMP
+  * Dense Projection: 128-D Feature Embedding
+
+- Attention Mechanism:
+  * Split-Self-Attention: Splits feature channels into [X1, X2]; X2 generates attention
+    gates for X1, and recombines weighted features.
+  * Cardiac Spatial/Temporal Feature Attention: Computes importance weights alpha in [0, 1]
+    via gating network to weight clinically salient cardiac acoustic patterns.
+  * Flow: INPUT FEATURES -> ATTENTION -> LEARNED IMPORTANCE WEIGHTS -> WEIGHTED FEATURES.
+
+- Decision Fusion:
+  * Branch Decision Heads: Produce 5-D sigmoid probabilities for each of the 8 auscultation sites.
+  * Dynamic Decision Fusion Layer: Gating network computes branch confidence weights
+    across the 8 valve positions for each disease class.
+  * Aggregation: Confidence-weighted decision pooling + non-linear clinical interaction refinement head.
+  * Output: Consolidated PATIENT-LEVEL multi-label vector [P(N), P(AS), P(AR), P(MR), P(MS)] bounded in [0, 1]^5.
+
+4. MODEL PARAMETERS & VERIFICATION
+--------------------------------------------------------------------------------
+- Total Parameters: 357,999
+- Trainable Parameters: 356,847
+- Non-trainable Parameters: 1,152
+- Forward Pass: VERIFIED on synthetic and real spectrogram batches.
+- Output Shapes: Patient=(B, 5), Branch Decisions=(B, 8, 5).
+
+5. ARTIFACTS CREATED
+--------------------------------------------------------------------------------
+- src/data/patient_grouping.py
+- src/data/dataset_loader.py
+- src/models/attention.py
+- src/models/rosanet.py
+- src/models/decision_fusion.py
+- src/training/train_rosanet.py
+- dataset/plots/model/rosanet_architecture.png
+- dataset/analysis/rosanet_model_summary.txt
+- support_report/step_3_1_rosanet_architecture_report.txt
+
+6. CRITICAL STOP CONDITION
+--------------------------------------------------------------------------------
+Architecture implementation and pipeline verification are COMPLETE.
+No model training, hyperparameter search, XAI, RAG, ChromaDB, or LLM calls were executed.
+================================================================================

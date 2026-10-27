@@ -1,0 +1,94 @@
+================================================================================
+BMD-HS CARDIOVASCULAR DISEASE CLASSIFICATION PROJECT - SESSION 04 REPORT
+================================================================================
+Date/Time: 2026-08-31
+Task: STEP 3.2 - RosaNet Training Pipeline Verification & Configuration
+
+1. PATIENT GROUPING & 8 PHYSICAL AUSCULTATION SITES
+--------------------------------------------------------------------------------
+- Verified Patient Counts:
+  * Train Patients: 76 (716 spectrograms)
+  * Validation Patients: 17 (136 spectrograms)
+  * Test Patients: 16 (128 spectrograms)
+  * Total: 109 Patients, 980 Spectrograms
+- Verified 8 Standard Physical Auscultation Sites per Patient:
+  1. sit_Aor (Sitting Aortic)
+  2. sit_Mit (Sitting Mitral)
+  3. sit_Pul (Sitting Pulmonary)
+  4. sit_Tri (Sitting Tricuspid)
+  5. sup_Aor (Supine Aortic)
+  6. sup_Mit (Supine Mitral)
+  7. sup_Pul (Supine Pulmonary)
+  8. sup_Tri (Supine Tricuspid)
+- Augmentation Handling Verification:
+  * 108 augmented recordings exist ONLY in the training split (0 in Val, 0 in Test).
+  * Each augmented recording maps directly to one of the 8 standard physical auscultation sites.
+  * Augmented recordings are NEVER treated as an extraneous 9th branch.
+  * In the data loader, augmented recordings form additional 8-branch patient sample instances.
+
+2. MULTI-LABEL TARGET VECTORS & SPECIAL MVP CASE
+--------------------------------------------------------------------------------
+- Formulation: 5 independent binary target flags [N, AS, AR, MR, MS]
+- Normal:                  [1.0, 0.0, 0.0, 0.0, 0.0]
+- Aortic Stenosis (AS):     [0.0, 1.0, 0.0, 0.0, 0.0]
+- Aortic Regurgitation (AR):[0.0, 0.0, 1.0, 0.0, 0.0]
+- Mitral Regurgitation (MR):[0.0, 0.0, 0.0, 1.0, 0.0]
+- Mitral Stenosis (MS):     [0.0, 0.0, 0.0, 0.0, 1.0]
+- Multi-Disease (AS+AR):   [0.0, 1.0, 1.0, 0.0, 0.0]
+- Multi-Disease (All 4):   [0.0, 1.0, 1.0, 1.0, 1.0]
+- Special Case (patient_022):
+  * Diagnosed with Mitral Valve Prolapse (MVP).
+  * Target Vector: [0.0, 0.0, 0.0, 0.0, 0.0] (strictly verified, NOT converted to Normal).
+
+3. INPUT TENSORS & TEMPORAL STANDARDIZATION
+--------------------------------------------------------------------------------
+- Model Input Shape: 8 branches of (Batch_Size, 64, 626, 1)
+- Temporal Dimension Handling:
+  * 978 recordings with T=626 preserved as-is.
+  * Shorter recordings (e.g. MD_001_sup_Tri with T=469) padded with minimum dB silence floor.
+  * Longer recordings cropped centrally to 626 time steps.
+
+4. LOSS & MULTI-LABEL METRICS CONFIGURATION
+--------------------------------------------------------------------------------
+- Loss: Multi-label Binary Cross-Entropy with independent sigmoid activations.
+- Loss weights: 1.0 * Primary_Patient_BCE + 0.2 * Auxiliary_Branch_BCE.
+- Computed Positive Class Weights for Training Split:
+  * N:  2.62
+  * AS: 4.85
+  * AR: 3.22
+  * MR: 1.92
+  * MS: 1.92
+- Tracked Clinical Metrics:
+  * Macro AUROC
+  * Macro AUPRC (PR-AUC)
+  * Binary Accuracy, Precision, Recall, Macro F1
+
+5. DATA LEAKAGE & MODEL PARAMETERS
+--------------------------------------------------------------------------------
+- Leakage Checks:
+  * Train ∩ Validation = 0 (Empty)
+  * Train ∩ Test = 0 (Empty)
+  * Validation ∩ Test = 0 (Empty)
+- Model Parameters:
+  * Total Parameters:         357,999
+  * Trainable Parameters:     356,847
+  * Non-trainable Parameters: 1,152
+- Forward Pass: VERIFIED on real Mel spectrogram batches.
+- Output Shapes: Patient=(B, 5), Branch Decisions=(B, 8, 5).
+
+6. TRAINING HYPERPARAMETER SPECIFICATION (CONFIGURED, NOT EXECUTED)
+--------------------------------------------------------------------------------
+- Random Seed:            42
+- Patient Batch Size:     4
+- Optimizer:              Adam (lr=1e-3, beta_1=0.9, beta_2=0.999, eps=1e-7)
+- Target Epochs:          50
+- Early Stopping:         Patience = 15 epochs (monitored on val_macro_auroc)
+- Learning Rate Schedule: ReduceLROnPlateau (factor=0.5, patience=5, min_lr=1e-6)
+- Checkpoint:             dataset/models/best_rosanet_model.keras
+
+7. CRITICAL STOP CONDITION
+--------------------------------------------------------------------------------
+All 12 verification checkpoints passed.
+No training loops, hyperparameter optimization, XAI, RAG, ChromaDB, or LLM calls were executed.
+Status: PASS
+================================================================================

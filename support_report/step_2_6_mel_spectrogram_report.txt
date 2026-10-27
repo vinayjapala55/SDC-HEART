@@ -1,0 +1,56 @@
+-----------------------------------------
+MEL SPECTROGRAM REPORT
+-----------------------------------------
+
+Input Audio Preprocessing:
+Train = 716 WAVs
+Validation = 136 WAVs
+Test = 128 WAVs
+Total = 980 WAVs
+
+Configuration:
+Sampling rate: 2000 Hz
+n_fft: 256
+hop_length: 64
+n_mels: 64
+fmin: 20 Hz
+fmax: 1000 Hz
+power: 2.0
+
+-----------------------------------------
+OUTPUT SPECTROGRAM COUNTS
+-----------------------------------------
+Train spectrograms: 716 / 716
+Validation spectrograms: 136 / 136
+Test spectrograms: 128 / 128
+Total spectrograms: 980 / 980
+
+Disk .npy files: Train=716, Val=136, Test=128
+Disk .png files: Train=716, Val=136, Test=128
+
+-----------------------------------------
+PATIENT ISOLATION & SPLIT CHECKS
+-----------------------------------------
+Train patients: 76 (Expected: 76)
+Validation patients: 17 (Expected: 17)
+Test patients: 16 (Expected: 16)
+Total unique patients: 109 (Expected: 109)
+Patient overlap: 0
+
+-----------------------------------------
+DATA INTEGRITY & QUALITY CHECKS
+-----------------------------------------
+Missing spectrograms: 0
+Duplicate spectrogram filenames: 0
+Corrupted .npy files: 0
+NaN values: 0
+Infinite values: 0
+Wrong shapes: 0
+Label mismatches: 0
+Patient mismatches: 0
+Split mismatches: 0
+
+-----------------------------------------
+STATUS
+-----------------------------------------
+PASS

@@ -1,0 +1,21 @@
+{
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embedding_dimension": 384,
+  "collection_name": "bmd_hs_medical_knowledge",
+  "document_count": 610,
+  "source_id": "acc_aha_vhd_2020",
+  "source_title": "2020 ACC/AHA Guideline for the Management of Patients With Valvular Heart Disease",
+  "organization": "ACC/AHA",
+  "publication_year": 2020,
+  "created_at": "2026-08-31T23:14:26.441867",
+  "chunking_stage": "Step 4.1C Validated",
+  "database_version": "1.0.0",
+  "distance_metric": "cosine",
+  "storage_format": "ChromaDB Persistent (SQLite + DuckDB / Parquet Vector Index)",
+  "reproducibility": {
+    "python_version": "3.11.0",
+    "chromadb_version": "1.5.9",
+    "device": "cpu",
+    "batch_size": 64
+  }
+}

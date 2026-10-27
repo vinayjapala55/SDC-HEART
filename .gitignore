@@ -1,0 +1,67 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / Packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyTorch / Machine Learning Model Checkpoints (Uncomment if models are large/heavy)
+# *.pth
+# *.pt
+# *.ckpt
+# *.bin
+# *.onnx
+
+# ChromaDB / SQLite temporary lock files
+*.sqlite3-wal
+*.sqlite3-shm
+*.sqlite3-journal
+
+# Temporary / Scratch Files
+_tmp_*
+tmp_*
+*.tmp
+*.log
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# IDEs and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+# Large dataset audio and spectrogram directories
+train/
+dataset/preprocessed/
+dataset/spectrograms/
+dataset/augmented/
+backup_pre_corrections/
+backup_stage1_checkpoint/
+dataset/rag/sources/ragdata.pdf
+dataset/models/*.keras
