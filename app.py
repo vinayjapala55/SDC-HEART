@@ -52,7 +52,9 @@ def initialize_system():
     global ORCHESTRATOR
     print("[INFO] Initializing Multi-Agent Diagnostic Pipeline Orchestrator...")
     try:
-        model_path = ROOT_DIR / "dataset" / "models" / "best_rosanet_model.keras"
+        model_4v = ROOT_DIR / "dataset" / "models" / "best_rosanet_4valve_model.keras"
+        model_orig = ROOT_DIR / "dataset" / "models" / "best_rosanet_model.keras"
+        model_path = model_4v if model_4v.exists() else model_orig
         chroma_dir = ROOT_DIR / "dataset" / "rag" / "chroma_db"
         ORCHESTRATOR = DiagnosticPipelineOrchestrator(
             model_checkpoint_path=str(model_path) if model_path.exists() else None,
@@ -62,7 +64,11 @@ def initialize_system():
     except Exception as e:
         import traceback
         traceback.print_exc()
-        print(f"[ERROR] Failed to initialize pipeline orchestrator: {e}")
+def get_orchestrator() -> Optional[DiagnosticPipelineOrchestrator]:
+    global ORCHESTRATOR
+    if ORCHESTRATOR is None:
+        initialize_system()
+    return ORCHESTRATOR
 
 
 @app.get("/api/status")
@@ -143,7 +149,8 @@ async def analyze_patient_session(
     Accepts 4 distinct recordings for Aortic, Mitral, Pulmonary, and Tricuspid sites.
     Executes Agent 1 (Quality) -> Agent 2 (Prediction & XAI) -> Agent 3 (RAG) -> Clinical Report.
     """
-    if ORCHESTRATOR is None:
+    orchestrator = get_orchestrator()
+    if orchestrator is None:
         raise HTTPException(status_code=500, detail="Diagnostic Orchestrator is not initialized.")
 
     valve_inputs = {}
@@ -187,12 +194,12 @@ async def analyze_patient_session(
         metadata = None
 
     try:
-        report: FinalClinicalReport = ORCHESTRATOR.process_session(
+        report: FinalClinicalReport = orchestrator.process_session(
             valve_files=valve_inputs,
             session_id=session_id,
             patient_metadata=metadata
         )
-        return report.dict()
+        return report.model_dump() if hasattr(report, "model_dump") else report.dict()
     except Exception as e:
         import traceback
         traceback.print_exc()
