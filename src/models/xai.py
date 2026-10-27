@@ -194,3 +194,90 @@ def explain_valve_predictions(
             "not clinical causation. They should be reviewed by a qualified specialist alongside echocardiography."
         )
     }
+
+
+def compute_rosanet_gradcam(
+    model: tf.keras.Model,
+    spectrogram_dict: Dict[str, np.ndarray],
+    target_class_idx: int = 1,
+    target_valve: str = 'Aor'
+) -> np.ndarray:
+    """
+    Computes Grad-CAM for a specified valve within a multi-valve RosaNet model.
+    """
+    spec = spectrogram_dict[target_valve]
+    recording_model = None
+    for layer in model.layers:
+        if isinstance(layer, tf.keras.Model) and "shared_rosanet" in layer.name:
+            recording_model = layer
+            break
+            
+    if recording_model is None:
+        return np.zeros((64, 626), dtype=np.float32)
+
+    return compute_gradcam_spectrogram(
+        recording_model=recording_model,
+        spectrogram_tensor=spec,
+        target_class_idx=target_class_idx,
+        conv_layer_name="block4_conv1"
+    )
+
+
+def extract_valve_attention_weights(
+    model: tf.keras.Model,
+    spectrogram_dict: Dict[str, np.ndarray],
+    valve_order: List[str] = None
+) -> Dict[str, float]:
+    """
+    Extracts normalized branch attention/gating weights from DynamicDecisionFusion layer.
+    """
+    if valve_order is None:
+        valve_order = ['Aor', 'Mit', 'Pul', 'Tri']
+
+    branch_batches = [np.expand_dims(spectrogram_dict[v], axis=0) for v in valve_order]
+    
+    # Try finding the fusion layer directly
+    fusion_layer = None
+    for l in model.layers:
+        if isinstance(l, tf.keras.layers.Layer) and "dynamic_decision_fusion" in l.name:
+            fusion_layer = l
+            break
+            
+    # If model has recording model, compute features and decisions
+    recording_model = None
+    for l in model.layers:
+        if isinstance(l, tf.keras.Model) and "shared_rosanet" in l.name:
+            recording_model = l
+            break
+
+    if fusion_layer is not None and recording_model is not None:
+        try:
+            preds_list = []
+            feats_list = []
+            for b in branch_batches:
+                p, f = recording_model(b, training=False)
+                preds_list.append(tf.reshape(p, (1, 1, 5)))
+                feats_list.append(tf.reshape(f, (1, 1, 128)))
+            
+            p_stack = tf.concat(preds_list, axis=1)
+            f_stack = tf.concat(feats_list, axis=1)
+            
+            combined = tf.concat([f_stack, p_stack], axis=-1)
+            h = fusion_layer.confidence_dense1(combined)
+            logits = fusion_layer.confidence_dense2(h)
+            weights = fusion_layer.softmax(logits).numpy()[0]  # (num_branches, 5)
+            
+            # Average across classes to get valve diagnostic importance
+            mean_valve_weights = np.mean(weights, axis=-1)
+            mean_valve_weights = mean_valve_weights / np.sum(mean_valve_weights)
+            
+            return {
+                valve_order[i]: float(mean_valve_weights[i])
+                for i in range(len(valve_order))
+            }
+        except Exception:
+            pass
+            
+    # Default uniform weights
+    n = len(valve_order)
+    return {v: 1.0 / n for v in valve_order}

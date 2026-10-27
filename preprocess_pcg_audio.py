@@ -10,7 +10,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-root = Path(r'C:\Users\chara\Downloads\BMDF\BMD-HS-Dataset-main')
+root = Path(__file__).resolve().parent
 TRAIN_CSV = root / 'train.csv'
 TRAIN_SPLIT = root / 'data' / 'splits' / 'train_patients.csv'
 VAL_SPLIT = root / 'data' / 'splits' / 'val_patients.csv'

@@ -53,36 +53,10 @@ class PredictionXAIAgent:
 
     def _load_model(self):
         from pathlib import Path
+        from src.models.checkpoint_io import get_or_create_rosanet_model
         root = Path(__file__).resolve().parent.parent.parent
         chk_path = Path(self.model_checkpoint_path) if self.model_checkpoint_path else (root / "dataset" / "models" / "best_rosanet_model.keras")
-
-        if chk_path.exists():
-            try:
-                from src.models.attention import SplitSelfAttention, CardiacSpatialTemporalAttention
-                from src.models.decision_fusion import DynamicDecisionFusion
-                from src.models.loss import WeightedMultiLabelBCE
-                loaded = tf.keras.models.load_model(
-                    str(chk_path),
-                    custom_objects={
-                        'SplitSelfAttention': SplitSelfAttention,
-                        'CardiacSpatialTemporalAttention': CardiacSpatialTemporalAttention,
-                        'DynamicDecisionFusion': DynamicDecisionFusion,
-                        'WeightedMultiLabelBCE': WeightedMultiLabelBCE
-                    },
-                    safe_mode=False
-                )
-                self.model = build_rosanet_4valve_model()
-                for l in self.model.layers:
-                    try:
-                        src_l = loaded.get_layer(l.name)
-                        l.set_weights(src_l.get_weights())
-                    except Exception:
-                        pass
-            except Exception as e:
-                print(f"[PredictionXAIAgent] Note: Initializing 4-valve architecture ({e})")
-                self.model = build_rosanet_4valve_model()
-        else:
-            self.model = build_rosanet_4valve_model()
+        self.model = get_or_create_rosanet_model(str(chk_path) if chk_path.exists() else None, num_branches=4)
 
     def predict_and_explain(
         self,

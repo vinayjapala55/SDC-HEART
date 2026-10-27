@@ -979,7 +979,7 @@ patient_078,MD_078_sup_Aor_prep.wav,MD_078_sup_Aor_prep.npy,Aor,AS+MR,original,t
 patient_078,MD_078_sup_Mit_prep.wav,MD_078_sup_Mit_prep.npy,Mit,AS+MR,original,train,2000.0,256.0,64.0,64.0,20.0,1000.0,2.0,"(64, 626)",dataset/spectrograms/test/npy/MD_078_sup_Mit_prep.npy,dataset/spectrograms/test/png/MD_078_sup_Mit_prep.png
 patient_078,MD_078_sup_Pul_prep.wav,MD_078_sup_Pul_prep.npy,Pul,AS+MR,original,train,2000.0,256.0,64.0,64.0,20.0,1000.0,2.0,"(64, 626)",dataset/spectrograms/test/npy/MD_078_sup_Pul_prep.npy,dataset/spectrograms/test/png/MD_078_sup_Pul_prep.png
 patient_078,MD_078_sup_Tri_prep.wav,MD_078_sup_Tri_prep.npy,Tri,AS+MR,original,train,2000.0,256.0,64.0,64.0,20.0,1000.0,2.0,"(64, 626)",dataset/spectrograms/test/npy/MD_078_sup_Tri_prep.npy,dataset/spectrograms/test/png/MD_078_sup_Tri_prep.png
-patient_034,AR_034_sit_Mit_aug_109_prep.wav,AR_034_sit_Mit_aug_109_prep_spec.npy,Mit,AR,augmented,train,,,,,,,,"(64, 626)",dataset\spectrograms\numerical\AR_034_sit_Mit_aug_109_prep_spec.npy,
-patient_034,AR_034_sit_Tri_aug_110_prep.wav,AR_034_sit_Tri_aug_110_prep_spec.npy,Tri,AR,augmented,train,,,,,,,,"(64, 626)",dataset\spectrograms\numerical\AR_034_sit_Tri_aug_110_prep_spec.npy,
-patient_034,AR_034_sit_Pul_aug_111_prep.wav,AR_034_sit_Pul_aug_111_prep_spec.npy,Pul,AR,augmented,train,,,,,,,,"(64, 626)",dataset\spectrograms\numerical\AR_034_sit_Pul_aug_111_prep_spec.npy,
-patient_034,AR_034_sit_Aor_aug_112_prep.wav,AR_034_sit_Aor_aug_112_prep_spec.npy,Aor,AR,augmented,train,,,,,,,,"(64, 626)",dataset\spectrograms\numerical\AR_034_sit_Aor_aug_112_prep_spec.npy,
+patient_034,AR_034_sit_Mit_aug_109_prep.wav,AR_034_sit_Mit_aug_109_prep.npy,Mit,AR,augmented,train,,,,,,,,"(64, 626)",dataset/spectrograms/train/npy/AR_034_sit_Mit_aug_109_prep.npy,
+patient_034,AR_034_sit_Tri_aug_110_prep.wav,AR_034_sit_Tri_aug_110_prep.npy,Tri,AR,augmented,train,,,,,,,,"(64, 626)",dataset/spectrograms/train/npy/AR_034_sit_Tri_aug_110_prep.npy,
+patient_034,AR_034_sit_Pul_aug_111_prep.wav,AR_034_sit_Pul_aug_111_prep.npy,Pul,AR,augmented,train,,,,,,,,"(64, 626)",dataset/spectrograms/train/npy/AR_034_sit_Pul_aug_111_prep.npy,
+patient_034,AR_034_sit_Aor_aug_112_prep.wav,AR_034_sit_Aor_aug_112_prep.npy,Aor,AR,augmented,train,,,,,,,,"(64, 626)",dataset/spectrograms/train/npy/AR_034_sit_Aor_aug_112_prep.npy,

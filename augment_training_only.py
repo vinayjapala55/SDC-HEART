@@ -12,7 +12,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-root = Path(r'C:\Users\chara\Downloads\BMDF\BMD-HS-Dataset-main')
+root = Path(__file__).resolve().parent
 split_csv = root / 'data' / 'splits' / 'train_patients.csv'
 source_manifest = root / 'train.csv'
 train_dir = root / 'train'

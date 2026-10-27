@@ -86,12 +86,13 @@ class TestStage5PreprocessingAndModelIntegrity(unittest.TestCase):
         print("\n[TEST 1 PASS] Audio preprocessing verified (Bandpass 25-400Hz, spike clamp, z-score norm, 10,000 samples).")
 
     def test_02_spectrogram_dataset_integrity(self):
-        """Verify on-disk numerical spectrograms match (64, 626), zero NaN/Inf, and realistic energy ranges."""
-        spec_dir = ROOT / 'dataset' / 'spectrograms' / 'numerical'
-        self.assertTrue(spec_dir.exists(), f"Spectrogram numerical directory not found at {spec_dir}")
+        """Verify on-disk numerical spectrograms match expected parameters, zero NaN/Inf, and standardize to (64, 626, 1)."""
+        from src.data.dataset_loader import load_and_standardize_spectrogram
+        spec_base = ROOT / 'dataset' / 'spectrograms'
+        self.assertTrue(spec_base.exists(), f"Spectrogram directory not found at {spec_base}")
 
-        all_specs = list(spec_dir.glob('*.npy'))
-        self.assertGreaterEqual(len(all_specs), 984, f"Expected at least 984 spectrograms, found {len(all_specs)}")
+        all_specs = list(spec_base.rglob('*.npy'))
+        self.assertGreaterEqual(len(all_specs), 984, f"Expected at least 984 spectrograms across dataset, found {len(all_specs)}")
 
         # Sample across beginning, middle, and end of the dataset
         sample_indices = np.linspace(0, len(all_specs) - 1, 30, dtype=int)
@@ -101,12 +102,18 @@ class TestStage5PreprocessingAndModelIntegrity(unittest.TestCase):
             f = all_specs[idx]
             arr = np.load(f)
 
-            self.assertEqual(arr.shape, (DEFAULT_FREQ_BINS, DEFAULT_TIME_STEPS),
-                             f"Incorrect shape for {f.name}: {arr.shape} vs ({DEFAULT_FREQ_BINS}, {DEFAULT_TIME_STEPS})")
+            # Frequency dimension must always be 64 Mel bins
+            self.assertEqual(arr.shape[0], DEFAULT_FREQ_BINS,
+                             f"Incorrect frequency dimension for {f.name}: {arr.shape[0]} vs {DEFAULT_FREQ_BINS}")
             self.assertFalse(np.isnan(arr).any(), f"NaN detected in {f.name}")
             self.assertFalse(np.isinf(arr).any(), f"Inf detected in {f.name}")
 
-            # Realistic log-mel energy bounds in dB (typically -100 to +30 dB)
+            # Standardized loading must produce exact (64, 626, 1) tensor
+            std_arr = load_and_standardize_spectrogram(f, root_dir=str(ROOT))
+            self.assertEqual(std_arr.shape, (DEFAULT_FREQ_BINS, DEFAULT_TIME_STEPS, 1),
+                             f"Standardized shape mismatch for {f.name}: {std_arr.shape}")
+
+            # Realistic log-mel energy bounds in dB (typically -150 to +100 dB)
             min_val = float(np.min(arr))
             max_val = float(np.max(arr))
             self.assertGreater(min_val, -150.0, f"Unrealistically low dB value in {f.name}: {min_val}")

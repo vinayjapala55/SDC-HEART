@@ -46,20 +46,21 @@ def compute_multilabel_class_weights(
 ) -> np.ndarray:
     """
     Computes positive class weight ratios for the 5 multi-label disease targets
-    based on training split patient distribution.
+    based on training split patient distribution, strictly excluding unknown (-1.0) labels.
     
     Formula:
-        pos_weight_c = (N_total - N_pos_c) / N_pos_c
+        pos_weight_c = N_neg_c / N_pos_c (over confirmed known labels)
     """
     targets = np.array([p['disease_vector'] for p in train_patients.values()], dtype=np.float32)
-    n_total = len(targets)
-    pos_counts = np.sum(targets, axis=0)
-    
-    # Avoid division by zero
     pos_weights = np.zeros(len(DISEASE_CLASSES), dtype=np.float32)
-    for c_idx, count in enumerate(pos_counts):
-        if count > 0:
-            pos_weights[c_idx] = (n_total - count) / count
+    
+    for c_idx in range(len(DISEASE_CLASSES)):
+        valid_targets = targets[targets[:, c_idx] != -1.0, c_idx]
+        pos_count = np.sum(valid_targets == 1.0)
+        neg_count = np.sum(valid_targets == 0.0)
+        
+        if pos_count > 0:
+            pos_weights[c_idx] = neg_count / pos_count
         else:
             pos_weights[c_idx] = 1.0
             
@@ -70,19 +71,17 @@ def get_multilabel_loss(
     pos_weights: Optional[np.ndarray] = None
 ) -> Dict[str, tf.keras.losses.Loss]:
     """
-    Returns multi-label Binary Cross-Entropy losses for patient prediction
-    and auxiliary branch predictions.
+    Returns Masked and Weighted Multi-Label Binary Cross-Entropy losses for patient prediction
+    and auxiliary branch predictions, strictly ignoring unannotated (-1.0) targets.
     """
-    # Patient-level multi-label BCE loss
-    patient_loss = losses.BinaryCrossentropy(
-        from_logits=False,
-        name="patient_bce_loss"
+    from src.models.loss import MaskedWeightedMultiLabelBCE
+    patient_loss = MaskedWeightedMultiLabelBCE(
+        pos_weights=pos_weights.tolist() if pos_weights is not None else None,
+        name="patient_masked_bce_loss"
     )
-    
-    # Auxiliary recording branch loss for deep supervision
-    branch_loss = losses.BinaryCrossentropy(
-        from_logits=False,
-        name="branch_aux_loss"
+    branch_loss = MaskedWeightedMultiLabelBCE(
+        pos_weights=pos_weights.tolist() if pos_weights is not None else None,
+        name="branch_masked_bce_loss"
     )
     
     return {
