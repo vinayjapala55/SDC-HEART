@@ -33,12 +33,26 @@ DISEASE_KEYS = ["N", "AS", "AR", "MR", "MS"]
 
 # Clinical decision thresholds derived from validation tuning
 DEFAULT_THRESHOLDS = {
-    "N": 0.50,
-    "AS": 0.45,
-    "AR": 0.45,
+    "N": 0.52,
+    "AS": 0.70,
+    "AR": 0.48,
     "MR": 0.45,
-    "MS": 0.45
+    "MS": 0.50
 }
+
+def get_calibrated_thresholds() -> Dict[str, float]:
+    """Loads calibrated thresholds from disk if available, otherwise returns defaults."""
+    import json
+    from pathlib import Path
+    t_file = Path(__file__).resolve().parent.parent.parent / "dataset" / "models" / "calibrated_thresholds.json"
+    if t_file.exists():
+        try:
+            with open(t_file, "r") as f:
+                data = json.load(f)
+            return data.get("calibrated_thresholds", DEFAULT_THRESHOLDS)
+        except Exception:
+            pass
+    return dict(DEFAULT_THRESHOLDS)
 
 
 class PredictionXAIAgent:
@@ -55,7 +69,14 @@ class PredictionXAIAgent:
         from pathlib import Path
         from src.models.checkpoint_io import get_or_create_rosanet_model
         root = Path(__file__).resolve().parent.parent.parent
-        chk_path = Path(self.model_checkpoint_path) if self.model_checkpoint_path else (root / "dataset" / "models" / "best_rosanet_model.keras")
+        four_valve_chk = root / "dataset" / "models" / "best_rosanet_4valve_model.keras"
+        orig_chk = root / "dataset" / "models" / "best_rosanet_model.keras"
+        if self.model_checkpoint_path:
+            chk_path = Path(self.model_checkpoint_path)
+        elif four_valve_chk.exists():
+            chk_path = four_valve_chk
+        else:
+            chk_path = orig_chk
         self.model = get_or_create_rosanet_model(str(chk_path) if chk_path.exists() else None, num_branches=4)
 
     def predict_and_explain(
@@ -67,7 +88,7 @@ class PredictionXAIAgent:
         """
         Executes inference and explainability across the 4 physical valve inputs.
         """
-        thresholds = dict(DEFAULT_THRESHOLDS)
+        thresholds = get_calibrated_thresholds()
         if custom_thresholds:
             thresholds.update(custom_thresholds)
 

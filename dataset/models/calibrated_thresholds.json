@@ -1,145 +1,22 @@
 {
   "calibrated_thresholds": {
-    "N": 0.52,
-    "AS": 0.7,
-    "AR": 0.48,
-    "MR": 0.45,
-    "MS": 0.5
+    "N": 0.29,
+    "AS": 0.49,
+    "AR": 0.62,
+    "MR": 0.43,
+    "MS": 0.49
   },
-  "default_thresholds": {
-    "N": 0.5,
-    "AS": 0.5,
-    "AR": 0.5,
-    "MR": 0.5,
-    "MS": 0.5
+  "test_overall_accuracy": 0.7,
+  "test_screening_accuracy": 0.6875,
+  "test_per_class_accuracy": {
+    "N": 0.6875,
+    "AS": 0.875,
+    "AR": 0.625,
+    "MR": 0.5625,
+    "MS": 0.75
   },
-  "validation_metrics_calibrated": {
-    "per_class": {
-      "N": {
-        "AUROC": 0.9807692307692308,
-        "AUPRC": 0.95,
-        "F1": 0.8,
-        "Precision": 0.6666666666666666,
-        "Recall": 1.0,
-        "Threshold": 0.52,
-        "Support_Pos": 4,
-        "Support_Neg": 13
-      },
-      "AS": {
-        "AUROC": 0.8846153846153847,
-        "AUPRC": 0.7986111111111112,
-        "F1": 0.75,
-        "Precision": 0.75,
-        "Recall": 0.75,
-        "Threshold": 0.7,
-        "Support_Pos": 4,
-        "Support_Neg": 13
-      },
-      "AR": {
-        "AUROC": 0.7575757575757576,
-        "AUPRC": 0.6925925925925925,
-        "F1": 0.6666666666666666,
-        "Precision": 0.5555555555555556,
-        "Recall": 0.8333333333333334,
-        "Threshold": 0.48,
-        "Support_Pos": 6,
-        "Support_Neg": 11
-      },
-      "MR": {
-        "AUROC": 0.44285714285714284,
-        "AUPRC": 0.388626849341135,
-        "F1": 0.631578947368421,
-        "Precision": 0.5,
-        "Recall": 0.8571428571428571,
-        "Threshold": 0.45,
-        "Support_Pos": 7,
-        "Support_Neg": 10
-      },
-      "MS": {
-        "AUROC": 0.6363636363636364,
-        "AUPRC": 0.4362433862433862,
-        "F1": 0.75,
-        "Precision": 0.6,
-        "Recall": 1.0,
-        "Threshold": 0.5,
-        "Support_Pos": 6,
-        "Support_Neg": 11
-      }
-    },
-    "macro": {
-      "Macro_AUROC": 0.7404362304362304,
-      "Macro_AUPRC": 0.653214787857645,
-      "Macro_F1": 0.7196491228070176,
-      "Macro_Precision": 0.6144444444444445,
-      "Macro_Recall": 0.8880952380952382
-    }
-  },
-  "validation_metrics_default": {
-    "per_class": {
-      "N": {
-        "AUROC": 0.9807692307692308,
-        "AUPRC": 0.95,
-        "F1": 0.7272727272727273,
-        "Precision": 0.5714285714285714,
-        "Recall": 1.0,
-        "Threshold": 0.5,
-        "Support_Pos": 4,
-        "Support_Neg": 13
-      },
-      "AS": {
-        "AUROC": 0.8846153846153847,
-        "AUPRC": 0.7986111111111112,
-        "F1": 0.5,
-        "Precision": 0.375,
-        "Recall": 0.75,
-        "Threshold": 0.5,
-        "Support_Pos": 4,
-        "Support_Neg": 13
-      },
-      "AR": {
-        "AUROC": 0.7575757575757576,
-        "AUPRC": 0.6925925925925925,
-        "F1": 0.6666666666666666,
-        "Precision": 0.5555555555555556,
-        "Recall": 0.8333333333333334,
-        "Threshold": 0.5,
-        "Support_Pos": 6,
-        "Support_Neg": 11
-      },
-      "MR": {
-        "AUROC": 0.44285714285714284,
-        "AUPRC": 0.388626849341135,
-        "F1": 0.375,
-        "Precision": 0.3333333333333333,
-        "Recall": 0.42857142857142855,
-        "Threshold": 0.5,
-        "Support_Pos": 7,
-        "Support_Neg": 10
-      },
-      "MS": {
-        "AUROC": 0.6363636363636364,
-        "AUPRC": 0.4362433862433862,
-        "F1": 0.75,
-        "Precision": 0.6,
-        "Recall": 1.0,
-        "Threshold": 0.5,
-        "Support_Pos": 6,
-        "Support_Neg": 11
-      }
-    },
-    "macro": {
-      "Macro_AUROC": 0.7404362304362304,
-      "Macro_AUPRC": 0.653214787857645,
-      "Macro_F1": 0.6037878787878788,
-      "Macro_Precision": 0.48706349206349203,
-      "Macro_Recall": 0.8023809523809524
-    }
-  },
-  "pos_weights": [
-    4.36,
-    1.59,
-    1.42,
-    2.12,
-    1.88
-  ]
+  "test_macro_f1": 0.5563157894736841,
+  "test_macro_sensitivity": 0.6214285714285714,
+  "test_macro_specificity": 0.7038461538461538,
+  "training_strategy": "Patient-level Masked Focal Loss with SpecAugment and Accuracy-optimal calibration"
 }

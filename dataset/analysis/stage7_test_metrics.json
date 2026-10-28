@@ -662,5 +662,15 @@
         0.5615671873092651
       ]
     ]
-  }
+  },
+  "overall_test_accuracy": 0.7,
+  "screening_accuracy": 0.6875,
+  "per_class_accuracy": {
+    "N": 0.6875,
+    "AS": 0.875,
+    "AR": 0.625,
+    "MR": 0.5625,
+    "MS": 0.75
+  },
+  "macro_f1": 0.5563157894736841
 }
