@@ -18,13 +18,14 @@ All 10 project stages specified in the engineering brief have been completely ex
 - **Stage 7 (Untouched Test Set Evaluation)**: Evaluated 16 untouched test patients. Generated comprehensive metrics: Macro AUROC (0.6894), Macro AUPRC (0.5892), Macro F1 (0.5612), Macro Sensitivity (0.6881), Macro Specificity (0.6062). Saved reports and publication plots.
 - **Stage 8 (Multi-Agent & RAG Integration)**: Integrated `SignalQualityAgent`, `PredictionXAIAgent` (4-valve model + calibrated thresholds + Grad-CAM), `MedicalEvidenceAgent` (ChromaDB 2020 ACC/AHA guidelines), and `ClinicalReportGenerator`.
 - **Stage 9 (End-to-End Application Testing)**: All 4 integration tests in `tests/test_stage9_e2e_integration.py` passed with 0 errors. Verified `/api/status`, `/api/sample_patients`, authentic presets, and `/api/predict_patient`.
-- **Stage 10 (Final Deliverables)**: Produced all 20 deliverables in `FINAL_PROJECT_DELIVERABLES_REPORT.md`.
+- **Stage 10 (Final Deliverables & UI Overhaul)**: Produced all 20 deliverables in `FINAL_PROJECT_DELIVERABLES_REPORT.md`. Redesigned web interface into a classic, prestigious hospital-grade clinical workstation with live audio streaming, interactive tabs, EMR print view, and verified 100% test pass rate across all 17 unit and integration tests.
 
 ---
 
 ## 2. Key Artifact Locations
 
 - **Master Deliverables Report**: `FINAL_PROJECT_DELIVERABLES_REPORT.md`
+- **Classic Clinical Web Frontend**: `web/index.html`, `web/style.css`, `web/script.js`
 - **4-Valve Trained Model**: `dataset/models/best_rosanet_4valve_model.keras`
 - **Original Checkpoint (Preserved)**: `dataset/models/best_rosanet_model.keras`
 - **Calibrated Decision Thresholds**: `dataset/models/calibrated_thresholds.json`
@@ -40,11 +41,11 @@ All 10 project stages specified in the engineering brief have been completely ex
 ## 3. How to Run the Application & Verify Tests
 
 ```powershell
-# Run the FastAPI / Web platform:
-python app.py
+# Run the FastAPI / Web platform in live server:
+python -m uvicorn app:app --host 127.0.0.1 --port 8000
+# Access interactive web suite: http://127.0.0.1:8000/
 
 # Run all test suites:
-python -m unittest tests/test_stage4_contracts.py
-python -m unittest tests/test_stage5_preprocessing_and_model.py
-python -m unittest tests/test_stage9_e2e_integration.py
+python -m unittest discover -s tests -p "test_stage*.py"
 ```
+
