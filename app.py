@@ -206,9 +206,33 @@ async def analyze_patient_session(
         raise HTTPException(status_code=500, detail=f"Pipeline error: {str(e)}")
 
 
-# Serve Web Frontend
+# Serve Web Frontend with zero browser caching
 web_dir = ROOT_DIR / "web"
 if web_dir.exists():
+    @app.get("/")
+    def get_index():
+        return FileResponse(
+            str(web_dir / "index.html"),
+            media_type="text/html",
+            headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache"}
+        )
+
+    @app.get("/style.css")
+    def get_css():
+        return FileResponse(
+            str(web_dir / "style.css"),
+            media_type="text/css",
+            headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache"}
+        )
+
+    @app.get("/script.js")
+    def get_js():
+        return FileResponse(
+            str(web_dir / "script.js"),
+            media_type="application/javascript",
+            headers={"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache"}
+        )
+
     app.mount("/", StaticFiles(directory=str(web_dir), html=True), name="web")
 
 if __name__ == "__main__":

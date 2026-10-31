@@ -3,373 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMD-HS Clinical Cardiovascular Diagnostic Suite &bull; RosaNet Agentic AI</title>
-    <meta name="description" content="Clinical Decision Support System for Multi-Valvular Heart Disease Classification and Patient-Specific Risk Stratification Using RosaNet and Agentic AI.">
-    <!-- Google Fonts: Inter & Plus Jakarta Sans for classic medical typography -->
+    <title>BMD-HS Clinical Cardiothoracic Diagnostic Suite | RosaNet Agentic AI</title>
+    <meta name="description" content="State-of-the-art Clinical Decision Support System for Multi-Valvular PCG Phonocardiogram Classification and Patient-Specific Risk Stratification.">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=20261028_final">
 </head>
-<body class="clinical-theme">
+<body class="clinical-dark-theme">
 
-    <!-- Top Medical Institutional Masthead -->
-    <header class="hospital-masthead">
+    <!-- Top Hospital Executive Masthead -->
+    <header class="executive-masthead">
         <div class="masthead-container">
-            <div class="institution-branding">
-                <div class="medical-emblem">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <div class="brand-identity">
+                <div class="cardio-pulse-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="emblem-ecg">
                         <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
                         <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.28"/>
                     </svg>
                 </div>
-                <div class="institution-titles">
-                    <div class="department-tag">CARDIOTHORACIC &bull; VALVULAR AUSCULTATION SUITE</div>
-                    <h1 class="hospital-title">BMD-HS <span class="title-accent">Cardiovascular Diagnostic Workstation</span></h1>
-                    <p class="hospital-subtitle">Multi-Agent RosaNet Deep Classifier &bull; 2020 ACC/AHA Valvular Heart Disease Guidelines RAG</p>
+                <div>
+                    <div class="suite-kicker">CARDIOTHORACIC MEDICINE &bull; VALVULAR AUSCULTATION AI</div>
+                    <h1 class="suite-title">BMD-HS <span class="title-gradient">Cardiovascular Diagnostic Workstation</span></h1>
+                    <p class="suite-tagline">Multi-Agent RosaNet Classifier &bull; 2020 ACC/AHA Valvular Heart Disease Guidelines RAG</p>
                 </div>
             </div>
 
-            <!-- Real-time Diagnostic Engine Telemetry -->
-            <div class="telemetry-bar">
-                <div class="telemetry-item">
-                    <span class="telemetry-label">AUDIT STATUS</span>
-                    <div class="telemetry-value">
-                        <span class="pulse-indicator online"></span>
-                        <span id="systemStatusText">4-Valve Engine Online</span>
+            <!-- ECG Live Rhythm Canvas & Engine Telemetry -->
+            <div class="masthead-telemetry">
+                <div class="ecg-monitor-box">
+                    <div class="ecg-status-line">
+                        <span class="live-dot pulse"></span>
+                        <span class="ecg-text" id="systemStatusText">ENGINE TELEMETRY ACTIVE</span>
+                    </div>
+                    <div class="ecg-waveform-mini">
+                        <svg viewBox="0 0 160 28" fill="none" class="ecg-svg">
+                            <path d="M0 14 L30 14 L35 14 L38 4 L42 24 L46 8 L50 18 L53 14 L90 14 L95 14 L98 4 L102 24 L106 8 L110 18 L113 14 L160 14" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
                 </div>
-                <div class="telemetry-divider"></div>
-                <div class="telemetry-item">
-                    <span class="telemetry-label">SAMPLING RATE</span>
-                    <span class="telemetry-badge">2,000 Hz Bandpassed</span>
-                </div>
-                <div class="telemetry-divider"></div>
-                <div class="telemetry-item">
-                    <span class="telemetry-label">MODEL ARCHITECTURE</span>
-                    <span class="telemetry-badge">RosaNet-4Valve (Calibrated)</span>
+
+                <div class="telemetry-specs">
+                    <div class="spec-pill">
+                        <span class="spec-lbl">CORE SAMPLING</span>
+                        <span class="spec-val">2,000 Hz Bandpassed</span>
+                    </div>
+                    <div class="spec-pill">
+                        <span class="spec-lbl">ARCHITECTURE</span>
+                        <span class="spec-val">RosaNet 4-Valve Neural Gating</span>
+                    </div>
+                    <div class="spec-pill">
+                        <span class="spec-lbl">RAG ENGINE</span>
+                        <span class="spec-val">ChromaDB Vector Store</span>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Diagnostic Workspace -->
-    <main class="clinical-workspace">
+    <!-- Main Diagnostic Console -->
+    <main class="console-layout">
 
-        <!-- SECTION 1: Patient Cohort Presets & Auscultation Input Deck -->
-        <section class="diagnostic-panel" id="panelInputs">
-            <div class="panel-header">
-                <div class="section-indicator">
-                    <span class="step-num">01</span>
+        <!-- SECTION 1: Patient Cohort Presets Bar -->
+        <section class="console-card presets-card">
+            <div class="card-masthead">
+                <div class="card-tag">STEP 01</div>
+                <div>
+                    <h2 class="card-heading">Select Clinical Patient Profile</h2>
+                    <p class="card-subheading">Choose an authentic 4-valve patient recording from the verified BMD-HS clinical cohort</p>
+                </div>
+            </div>
+
+            <div class="patient-preset-carousel" id="patientPresetButtons">
+                <div class="preset-loading-card">Connecting to clinical preset registry...</div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Four Anatomical Auscultation Valve Stations -->
+        <section class="console-card stations-card">
+            <div class="card-masthead flex-between">
+                <div class="flex-align">
+                    <div class="card-tag blue">STEP 02</div>
                     <div>
-                        <h2 class="panel-title">Patient Selection & Four-Valve Auscultation Deck</h2>
-                        <p class="panel-desc">Select an authentic clinical profile from the patient cohort or upload patient phonocardiograms (PCG) across all four anatomical sites</p>
+                        <h2 class="card-heading">Four-Valve Auscultation Deck</h2>
+                        <p class="card-subheading">Phonocardiograms synchronized across Aortic, Mitral, Pulmonic, and Tricuspid anatomical sites</p>
                     </div>
                 </div>
-                <div class="panel-actions">
-                    <button class="btn btn-secondary btn-sm" id="btnResetForm">
+                <div class="deck-controls">
+                    <button class="btn btn-ghost btn-sm" id="btnResetForm">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                        Clear Selection
+                        Reset Deck
                     </button>
                 </div>
             </div>
 
-            <!-- Patient Profile Selector Tabs -->
-            <div class="patient-cohort-container">
-                <div class="cohort-header">
-                    <span class="cohort-title">Verified Patient Profiles (BMD-HS Clinical Cohort):</span>
-                    <span class="cohort-subtitle">Click to load 4-valve auscultation recordings</span>
-                </div>
-                <div class="patient-card-deck" id="patientPresetButtons">
-                    <div class="loading-preset-skeleton">Loading clinical patient cohort presets from server...</div>
-                </div>
-            </div>
-
-            <div class="clinical-separator">
-                <span class="separator-text">FOUR ANATOMICAL VALVE AUSCULTATION SITES</span>
-            </div>
-
-            <!-- 4 Physical Valve Stations -->
-            <div class="valves-quadrant-grid">
+            <!-- 4 Valve Quadrant -->
+            <div class="quadrant-valve-grid">
                 
-                <!-- Aortic Valve Station -->
-                <div class="valve-station" id="stationAor" data-valve="Aor">
-                    <div class="valve-station-header">
-                        <div class="valve-ident">
-                            <span class="valve-symbol symbol-aor">AOR</span>
-                            <div>
-                                <h3 class="valve-name">Aortic Area</h3>
-                                <span class="valve-location">Right 2nd Intercostal Space</span>
-                            </div>
+                <!-- Aortic Valve -->
+                <div class="valve-station-pod station-aor" id="stationAor">
+                    <div class="station-top">
+                        <div class="valve-emblem">
+                            <span class="symbol-code">AOR</span>
+                            <div class="pulse-indicator"></div>
                         </div>
-                        <span class="station-status-pill" id="badgeAor">Pending</span>
+                        <div class="station-meta">
+                            <h3 class="station-title">Aortic Valve</h3>
+                            <span class="station-anatomy">Right 2nd Intercostal Space</span>
+                        </div>
+                        <span class="status-chip" id="badgeAor">Awaiting</span>
                     </div>
-                    
-                    <p class="valve-clinical-note">Primary site for Aortic Stenosis (AS systolic ejection murmur) and Aortic Regurgitation (AR early diastolic murmur).</p>
-                    
-                    <div class="audio-slot">
-                        <div class="file-name-display" id="statusAor">No audio loaded</div>
-                        <div class="audio-player-wrapper hidden" id="playerWrapAor">
+
+                    <div class="station-clinical-focus">
+                        Primary acoustic site for <strong>Aortic Stenosis (AS)</strong> systolic ejection murmur and <strong>Aortic Regurgitation (AR)</strong> decrescendo murmur.
+                    </div>
+
+                    <div class="station-audio-dock">
+                        <div class="dock-filename" id="statusAor">No audio loaded</div>
+                        <div class="dock-player-wrap hidden" id="playerWrapAor">
                             <audio controls id="audioAor"></audio>
                         </div>
                     </div>
 
-                    <label class="btn-upload-dropzone">
+                    <label class="btn-station-upload">
                         <input type="file" id="inputAor" accept=".wav,audio/wav" hidden>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span>Choose Aortic WAV</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>Upload Aortic WAV</span>
                     </label>
                 </div>
 
-                <!-- Mitral Valve Station -->
-                <div class="valve-station" id="stationMit" data-valve="Mit">
-                    <div class="valve-station-header">
-                        <div class="valve-ident">
-                            <span class="valve-symbol symbol-mit">MIT</span>
-                            <div>
-                                <h3 class="valve-name">Mitral Area (Apex)</h3>
-                                <span class="valve-location">Left 5th Intercostal Space, Midclavicular</span>
-                            </div>
+                <!-- Mitral Valve -->
+                <div class="valve-station-pod station-mit" id="stationMit">
+                    <div class="station-top">
+                        <div class="valve-emblem">
+                            <span class="symbol-code">MIT</span>
+                            <div class="pulse-indicator"></div>
                         </div>
-                        <span class="station-status-pill" id="badgeMit">Pending</span>
+                        <div class="station-meta">
+                            <h3 class="station-title">Mitral Valve (Apex)</h3>
+                            <span class="station-anatomy">Left 5th Intercostal Space, Midclavicular</span>
+                        </div>
+                        <span class="status-chip" id="badgeMit">Awaiting</span>
                     </div>
 
-                    <p class="valve-clinical-note">Primary site for Mitral Regurgitation (MR pansystolic murmur) and Mitral Stenosis (MS mid-diastolic low-pitch rumble).</p>
+                    <div class="station-clinical-focus">
+                        Primary acoustic site for <strong>Mitral Regurgitation (MR)</strong> pansystolic murmur and <strong>Mitral Stenosis (MS)</strong> mid-diastolic low-pitch rumble.
+                    </div>
 
-                    <div class="audio-slot">
-                        <div class="file-name-display" id="statusMit">No audio loaded</div>
-                        <div class="audio-player-wrapper hidden" id="playerWrapMit">
+                    <div class="station-audio-dock">
+                        <div class="dock-filename" id="statusMit">No audio loaded</div>
+                        <div class="dock-player-wrap hidden" id="playerWrapMit">
                             <audio controls id="audioMit"></audio>
                         </div>
                     </div>
 
-                    <label class="btn-upload-dropzone">
+                    <label class="btn-station-upload">
                         <input type="file" id="inputMit" accept=".wav,audio/wav" hidden>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span>Choose Mitral WAV</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>Upload Mitral WAV</span>
                     </label>
                 </div>
 
-                <!-- Pulmonary Valve Station -->
-                <div class="valve-station" id="stationPul" data-valve="Pul">
-                    <div class="valve-station-header">
-                        <div class="valve-ident">
-                            <span class="valve-symbol symbol-pul">PUL</span>
-                            <div>
-                                <h3 class="valve-name">Pulmonic Area</h3>
-                                <span class="valve-location">Left 2nd Intercostal Space</span>
-                            </div>
+                <!-- Pulmonic Valve -->
+                <div class="valve-station-pod station-pul" id="stationPul">
+                    <div class="station-top">
+                        <div class="valve-emblem">
+                            <span class="symbol-code">PUL</span>
+                            <div class="pulse-indicator"></div>
                         </div>
-                        <span class="station-status-pill" id="badgePul">Pending</span>
+                        <div class="station-meta">
+                            <h3 class="station-title">Pulmonic Valve</h3>
+                            <span class="station-anatomy">Left 2nd Intercostal Space, Sternal Border</span>
+                        </div>
+                        <span class="status-chip" id="badgePul">Awaiting</span>
                     </div>
 
-                    <p class="valve-clinical-note">Site for physiological split S2 assessment, pulmonary valve acoustics, and thoracic radiation comparison.</p>
+                    <div class="station-clinical-focus">
+                        Acoustic site for <strong>Physiological S2 Split</strong>, pulmonary valve murmurs, and differential diagnosis of base murmurs.
+                    </div>
 
-                    <div class="audio-slot">
-                        <div class="file-name-display" id="statusPul">No audio loaded</div>
-                        <div class="audio-player-wrapper hidden" id="playerWrapPul">
+                    <div class="station-audio-dock">
+                        <div class="dock-filename" id="statusPul">No audio loaded</div>
+                        <div class="dock-player-wrap hidden" id="playerWrapPul">
                             <audio controls id="audioPul"></audio>
                         </div>
                     </div>
 
-                    <label class="btn-upload-dropzone">
+                    <label class="btn-station-upload">
                         <input type="file" id="inputPul" accept=".wav,audio/wav" hidden>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span>Choose Pulmonic WAV</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>Upload Pulmonic WAV</span>
                     </label>
                 </div>
 
-                <!-- Tricuspid Valve Station -->
-                <div class="valve-station" id="stationTri" data-valve="Tri">
-                    <div class="valve-station-header">
-                        <div class="valve-ident">
-                            <span class="valve-symbol symbol-tri">TRI</span>
-                            <div>
-                                <h3 class="valve-name">Tricuspid Area</h3>
-                                <span class="valve-location">Left 4th-5th Lower Sternal Border</span>
-                            </div>
+                <!-- Tricuspid Valve -->
+                <div class="valve-station-pod station-tri" id="stationTri">
+                    <div class="station-top">
+                        <div class="valve-emblem">
+                            <span class="symbol-code">TRI</span>
+                            <div class="pulse-indicator"></div>
                         </div>
-                        <span class="station-status-pill" id="badgeTri">Pending</span>
+                        <div class="station-meta">
+                            <h3 class="station-title">Tricuspid Valve</h3>
+                            <span class="station-anatomy">Left 4th-5th Intercostal Sternal Border</span>
+                        </div>
+                        <span class="status-chip" id="badgeTri">Awaiting</span>
                     </div>
 
-                    <p class="valve-clinical-note">Site for right-sided cardiac acoustics, Carvallo's sign inspiratory variations, and differential diagnosis.</p>
+                    <div class="station-clinical-focus">
+                        Acoustic site for right-sided cardiac murmurs, Carvallo's inspiratory sign, and ventricular septal defect radiation.
+                    </div>
 
-                    <div class="audio-slot">
-                        <div class="file-name-display" id="statusTri">No audio loaded</div>
-                        <div class="audio-player-wrapper hidden" id="playerWrapTri">
+                    <div class="station-audio-dock">
+                        <div class="dock-filename" id="statusTri">No audio loaded</div>
+                        <div class="dock-player-wrap hidden" id="playerWrapTri">
                             <audio controls id="audioTri"></audio>
                         </div>
                     </div>
 
-                    <label class="btn-upload-dropzone">
+                    <label class="btn-station-upload">
                         <input type="file" id="inputTri" accept=".wav,audio/wav" hidden>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                        <span>Choose Tricuspid WAV</span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        <span>Upload Tricuspid WAV</span>
                     </label>
                 </div>
 
             </div>
 
             <!-- Execution Action Bar -->
-            <div class="execution-bar">
-                <div class="execution-info">
-                    <span class="info-icon">ℹ</span>
-                    <span id="inputReadinessText">Please select a patient preset or provide WAV files for all 4 valve positions.</span>
+            <div class="analysis-trigger-bar">
+                <div class="trigger-meta">
+                    <span class="pulse-dot-green"></span>
+                    <span id="inputReadinessText">Select a clinical preset above or load all 4 valve phonocardiograms to initiate diagnostic inference.</span>
                 </div>
-                <button id="btnRunAnalysis" class="btn btn-primary-diagnose" disabled>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                <button id="btnRunAnalysis" class="btn btn-execute-diagnosis" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.28"/></svg>
                     <span>Run Multi-Agent 4-Valve Analysis</span>
                 </button>
             </div>
         </section>
 
-        <!-- SECTION 2: Multi-Agent Live Execution Stepper (Loading State) -->
-        <section class="diagnostic-panel hidden" id="loadingSection">
-            <div class="agent-telemetry-stepper">
-                <div class="stepper-header">
-                    <div class="cardiac-pulse-loader">
-                        <div class="heartbeat-ring"></div>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="heart-pulse-icon">
-                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-                        </svg>
+        <!-- SECTION 3: Live Agent Orchestration Stepper (Loading State) -->
+        <section class="console-card loading-card hidden" id="loadingSection">
+            <div class="agent-stepper-container">
+                <div class="stepper-hero">
+                    <div class="radar-pulse-spinner">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-core"></div>
                     </div>
                     <div>
                         <h3 class="stepper-title" id="progressTitle">Executing Multi-Agent Diagnostic Pipeline...</h3>
-                        <p class="stepper-subtitle" id="progressSub">Initializing agent orchestrator and pipeline components...</p>
+                        <p class="stepper-subtitle" id="progressSub">Agent 1: Inspecting signal quality, sample rate, and bandpass filter parameters...</p>
                     </div>
                 </div>
 
-                <!-- 4 Agent Step Indicators -->
-                <div class="agent-flow-grid">
-                    <div class="agent-step-card active" id="stepAgent1">
-                        <div class="step-num-badge">01</div>
-                        <div class="step-info">
-                            <span class="step-name">Signal Quality Agent</span>
-                            <span class="step-detail">2000Hz Resampling, 25-400Hz Bandpass & SNR</span>
+                <div class="agent-nodes-grid">
+                    <div class="agent-node-card active" id="nodeAgent1">
+                        <div class="node-badge">01</div>
+                        <div class="node-content">
+                            <span class="node-title">Agent 1: Signal Quality</span>
+                            <span class="node-desc">2000 Hz Resample &bull; 25-400 Hz Butterworth &bull; SNR Check</span>
                         </div>
-                        <span class="step-status-tag">Executing</span>
+                        <span class="node-state-pill">Active</span>
                     </div>
 
-                    <div class="agent-step-card" id="stepAgent2">
-                        <div class="step-num-badge">02</div>
-                        <div class="step-info">
-                            <span class="step-name">RosaNet Prediction & XAI Agent</span>
-                            <span class="step-detail">4-Valve Spectrogram Inference & Grad-CAM</span>
+                    <div class="agent-node-card" id="nodeAgent2">
+                        <div class="node-badge">02</div>
+                        <div class="node-content">
+                            <span class="node-title">Agent 2: RosaNet & XAI</span>
+                            <span class="node-desc">4-Valve Multi-Head Attention &bull; Grad-CAM Heatmaps</span>
                         </div>
-                        <span class="step-status-tag">Waiting</span>
+                        <span class="node-state-pill">Queued</span>
                     </div>
 
-                    <div class="agent-step-card" id="stepAgent3">
-                        <div class="step-num-badge">03</div>
-                        <div class="step-info">
-                            <span class="step-name">Clinical Evidence Agent</span>
-                            <span class="step-detail">ChromaDB RAG 2020 ACC/AHA Guidelines</span>
+                    <div class="agent-node-card" id="nodeAgent3">
+                        <div class="node-badge">03</div>
+                        <div class="node-content">
+                            <span class="node-title">Agent 3: Clinical Evidence</span>
+                            <span class="node-desc">ChromaDB RAG &bull; 2020 ACC/AHA Valvular Guidelines</span>
                         </div>
-                        <span class="step-status-tag">Waiting</span>
+                        <span class="node-state-pill">Queued</span>
                     </div>
 
-                    <div class="agent-step-card" id="stepAgent4">
-                        <div class="step-num-badge">04</div>
-                        <div class="step-info">
-                            <span class="step-name">Report Generator Agent</span>
-                            <span class="step-detail">Synthesizing Comprehensive Clinical Consult</span>
+                    <div class="agent-node-card" id="nodeAgent4">
+                        <div class="node-badge">04</div>
+                        <div class="node-content">
+                            <span class="node-title">Agent 4: Report Synthesis</span>
+                            <span class="node-desc">Risk Stratification &bull; Comprehensive EMR Consult Note</span>
                         </div>
-                        <span class="step-status-tag">Waiting</span>
+                        <span class="node-state-pill">Queued</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 3: Diagnostic Results Dashboard -->
-        <section class="diagnostic-panel hidden" id="resultsContainer">
+        <!-- SECTION 4: Comprehensive Diagnostic Results Dashboard -->
+        <section class="console-card results-card hidden" id="resultsContainer">
             
-            <!-- Executive Summary Card -->
-            <div class="executive-consult-header">
-                <div class="header-main">
-                    <div class="consult-meta-line">
-                        <span class="patient-id-tag" id="resPatientId">SESSION-PATIENT</span>
-                        <span class="meta-dot">&bull;</span>
-                        <span class="timestamp-tag" id="resTimestamp">2026-10-28 11:30 UTC</span>
-                        <span class="meta-dot">&bull;</span>
-                        <span class="model-version-tag" id="resModelVersion">RosaNet-4Valve-v1.0</span>
+            <!-- Hero Diagnosis Banner -->
+            <div class="diagnosis-hero-banner" id="heroBanner">
+                <div class="hero-left">
+                    <div class="patient-accession-meta">
+                        <span class="accession-code" id="resPatientId">SESSION-PATIENT</span>
+                        <span class="meta-separator">&bull;</span>
+                        <span class="accession-time" id="resTimestamp">--</span>
+                        <span class="meta-separator">&bull;</span>
+                        <span class="accession-engine" id="resModelVersion">RosaNet-4Valve-v1.0</span>
                     </div>
-                    <h2 class="consult-primary-diagnosis" id="resPrimaryDiagnosis">Auscultation Analysis Complete</h2>
-                    <p class="consult-secondary-description" id="resSecondaryDescription">Synthesized findings based on multi-site acoustic phonocardiogram signals.</p>
+                    <h2 class="hero-diagnosis-title" id="resPrimaryDiagnosis">Diagnostic Evaluation Complete</h2>
+                    <p class="hero-diagnosis-sub" id="resSecondaryDescription">Synthesized hemodynamic phonocardiogram analysis across all 4 auscultation positions.</p>
                 </div>
-                
-                <div class="risk-classification-box">
-                    <span class="risk-box-label">RISK STRATIFICATION</span>
-                    <div class="risk-status-pill" id="resRiskPill">EVALUATING</div>
+
+                <div class="hero-right">
+                    <div class="risk-badge-block">
+                        <span class="risk-label">CLINICAL RISK STRATIFICATION</span>
+                        <div class="risk-pill-glow" id="resRiskPill">EVALUATING</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Tabbed Findings Sections -->
-            <div class="findings-tabs">
-                <button class="tab-btn active" data-tab="tabOverview">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                    <span>Valvular Probabilities</span>
+            <!-- Tab Navigation Bar -->
+            <div class="clinical-nav-tabs">
+                <button class="tab-link active" data-tab="tabProbs">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    <span>Valvular Disease Probabilities</span>
                 </button>
-                <button class="tab-btn" data-tab="tabQuality">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                    <span>Signal Quality (Agent 1)</span>
+                <button class="tab-link" data-tab="tabQuality">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    <span>Signal Quality QC (Agent 1)</span>
                 </button>
-                <button class="tab-btn" data-tab="tabXAI">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                    <span>Explainable AI & Valve Attribution (Agent 2)</span>
+                <button class="tab-link" data-tab="tabXAI">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    <span>Valve Attribution & XAI (Agent 2)</span>
                 </button>
-                <button class="tab-btn" data-tab="tabEvidence">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                    <span>ACC/AHA Guidelines Evidence (Agent 3)</span>
+                <button class="tab-link" data-tab="tabEvidence">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span>ACC/AHA Guidelines RAG (Agent 3)</span>
                 </button>
-                <button class="tab-btn" data-tab="tabFullReport">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <span>Clinical Consultation Note</span>
+                <button class="tab-link" data-tab="tabEMR">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>Clinical EMR Consultation Note</span>
                 </button>
             </div>
 
-            <!-- Tab Content: Valvular Probabilities -->
-            <div class="tab-pane active" id="tabOverview">
+            <!-- Tab Content 1: Valvular Probabilities -->
+            <div class="tab-content-panel active" id="tabProbs">
                 <div class="probability-deck-header">
-                    <div>
-                        <h4 class="deck-title">RosaNet Multi-Label Valvular Disease Spectrum</h4>
-                        <p class="deck-subtitle">Predicted class probabilities evaluated against validation-calibrated clinical decision thresholds.</p>
-                    </div>
+                    <h3 class="panel-section-title">Multilabel Valvular Heart Disease Probability Spectrum</h3>
+                    <p class="panel-section-sub">Probabilities evaluated by RosaNet against validation-calibrated clinical decision thresholds.</p>
                 </div>
 
                 <div class="probability-cards-grid" id="probsGrid">
-                    <!-- Populated dynamically -->
+                    <!-- Dynamic Prob Cards -->
                 </div>
 
-                <!-- Detected Valvular Conditions Highlights -->
-                <div class="detected-conditions-panel" id="detectedConditionsSection">
-                    <h5 class="section-minor-heading">Active Clinical Valvular Lesions Identified:</h5>
-                    <div class="conditions-chip-list" id="conditionsChipList">
-                        <!-- Populated dynamically -->
+                <div class="active-pathology-box" id="detectedConditionsSection">
+                    <h4 class="box-title">Identified Valvular Lesions:</h4>
+                    <div class="pathology-chip-deck" id="conditionsChipList">
+                        <!-- Dynamic Chips -->
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Content: Signal Quality (Agent 1) -->
-            <div class="tab-pane" id="tabQuality">
-                <div class="agent-review-card">
-                    <div class="agent-card-masthead">
-                        <span class="agent-badge agent-1">Agent 1: Signal Quality</span>
-                        <h4 class="agent-card-title">Acoustic Signal Preprocessing & Standard Compliance</h4>
-                    </div>
-                    
-                    <div class="quality-summary-banner" id="qualityBanner">
-                        <!-- Summary -->
+            <!-- Tab Content 2: Signal Quality (Agent 1) -->
+            <div class="tab-content-panel" id="tabQuality">
+                <div class="sub-panel-card">
+                    <div class="sub-panel-masthead">
+                        <span class="agent-id-tag tag-blue">AGENT 1: SIGNAL QUALITY</span>
+                        <h3 class="sub-panel-title">Phonocardiogram Signal Integrity & Preprocessing Audit</h3>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="clinical-table" id="qualityTable">
+                    <div class="qc-summary-strip" id="qualityBanner">
+                        <!-- Quality summary text -->
+                    </div>
+
+                    <div class="table-container">
+                        <table class="neon-medical-table" id="qualityTable">
                             <thead>
                                 <tr>
                                     <th>Auscultation Site</th>
-                                    <th>Source File</th>
+                                    <th>Recording File</th>
                                     <th>Duration</th>
                                     <th>Sample Rate</th>
-                                    <th>Bandpass Verification</th>
+                                    <th>Butterworth Bandpass</th>
                                     <th>QC Status</th>
                                 </tr>
                             </thead>
@@ -381,56 +401,58 @@
                 </div>
             </div>
 
-            <!-- Tab Content: Explainable AI & Attribution (Agent 2) -->
-            <div class="tab-pane" id="tabXAI">
-                <div class="agent-review-card">
-                    <div class="agent-card-masthead">
-                        <span class="agent-badge agent-2">Agent 2: Explainable AI</span>
-                        <h4 class="agent-card-title">Valve-Level Diagnostic Attributions & Acoustic Murmur Localization</h4>
+            <!-- Tab Content 3: Explainable AI & Valve Attribution (Agent 2) -->
+            <div class="tab-content-panel" id="tabXAI">
+                <div class="sub-panel-card">
+                    <div class="sub-panel-masthead">
+                        <span class="agent-id-tag tag-purple">AGENT 2: EXPLAINABLE AI</span>
+                        <h3 class="sub-panel-title">Acoustic Murmur Epicenter & Valve Diagnostic Contribution</h3>
                     </div>
 
-                    <div class="xai-explanation-container" id="xaiContainer">
+                    <div class="xai-cards-deck" id="xaiContainer">
                         <!-- Populated dynamically -->
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Content: ACC/AHA Evidence (Agent 3) -->
-            <div class="tab-pane" id="tabEvidence">
-                <div class="agent-review-card">
-                    <div class="agent-card-masthead">
-                        <span class="agent-badge agent-3">Agent 3: Evidence Retrieval</span>
-                        <h4 class="agent-card-title">2020 ACC/AHA Valvular Heart Disease Guideline Recommendations (ChromaDB RAG)</h4>
+            <!-- Tab Content 4: ACC/AHA Guidelines Evidence (Agent 3) -->
+            <div class="tab-content-panel" id="tabEvidence">
+                <div class="sub-panel-card">
+                    <div class="sub-panel-masthead">
+                        <span class="agent-id-tag tag-green">AGENT 3: CLINICAL EVIDENCE</span>
+                        <h3 class="sub-panel-title">2020 ACC/AHA Valvular Heart Disease Guideline Recommendations (ChromaDB RAG)</h3>
                     </div>
 
-                    <div class="guideline-cards-deck" id="guidelinesContainer">
+                    <div class="guideline-deck" id="guidelinesContainer">
                         <!-- Populated dynamically -->
                     </div>
                 </div>
             </div>
 
-            <!-- Tab Content: Full Clinical Note -->
-            <div class="tab-pane" id="tabFullReport">
-                <div class="emr-document-container">
-                    <div class="emr-toolbar">
-                        <div class="emr-header-text">
-                            <span class="emr-hospital-title">DEPARTMENT OF CARDIOLOGY &bull; CLINICAL AUSCULTATION REPORT</span>
-                            <span class="emr-subtitle">Automated Multi-Agent Consultation &bull; ACC/AHA 2020 Validated</span>
+            <!-- Tab Content 5: Clinical EMR Note (Agent 4) -->
+            <div class="tab-content-panel" id="tabEMR">
+                <div class="emr-terminal-card">
+                    <div class="emr-terminal-bar">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
                         </div>
-                        <div class="emr-action-buttons">
-                            <button class="btn btn-secondary btn-sm" id="btnCopyReport">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                <span>Copy Text</span>
+                        <span class="terminal-title">ELECTRONIC MEDICAL CONSULTATION RECORD &bull; OFFICIAL CLINICAL IMPRESSION</span>
+                        <div class="terminal-actions">
+                            <button class="btn btn-secondary btn-xs" id="btnCopyReport">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                <span>Copy Note</span>
                             </button>
-                            <button class="btn btn-primary btn-sm" id="btnPrintReport">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                                <span>Print EMR Note</span>
+                            <button class="btn btn-primary btn-xs" id="btnPrintReport">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                                <span>Print / PDF</span>
                             </button>
                         </div>
                     </div>
 
-                    <div class="emr-paper-sheet" id="emrSheet">
-                        <pre class="emr-markdown-content" id="reportMarkdownPre"></pre>
+                    <div class="emr-body-sheet">
+                        <pre class="emr-text-block" id="reportMarkdownPre"></pre>
                     </div>
                 </div>
             </div>
@@ -439,22 +461,24 @@
 
     </main>
 
-    <!-- Institutional Footer -->
-    <footer class="clinical-footer">
-        <div class="footer-container">
-            <div class="footer-left">
-                <span class="footer-brand">BUET Multi-Disease Heart Sound Dataset (BMD-HS)</span>
-                <span class="footer-divider">&bull;</span>
-                <span>RosaNet 4-Valve Deep Learning Architecture</span>
-                <span class="footer-divider">&bull;</span>
+    <!-- Hospital Suite Footer -->
+    <footer class="console-footer">
+        <div class="footer-wrap">
+            <div class="footer-links">
+                <span class="f-brand">BUET Multi-Disease Heart Sound Dataset (BMD-HS)</span>
+                <span class="f-dot">&bull;</span>
+                <span>RosaNet 4-Valve Deep Neural Ensemble</span>
+                <span class="f-dot">&bull;</span>
                 <span>ChromaDB Vector Retrieval Engine</span>
+                <span class="f-dot">&bull;</span>
+                <span>2020 ACC/AHA Valvular Guidelines</span>
             </div>
-            <div class="footer-right">
-                <span>Clinical Decision Support System &bull; For Investigational & Diagnostic Triaging Use</span>
+            <div class="footer-tag">
+                Clinical Decision Support System &bull; Investigational Clinical Triaging Assistant
             </div>
         </div>
     </footer>
 
-    <script src="script.js?v=6"></script>
+    <script src="script.js?v=20261028_final"></script>
 </body>
 </html>
